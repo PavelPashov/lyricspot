@@ -68,7 +68,9 @@ def get_song_lyrics(country, token):
             return lyrics
         else:
             try:
-                response = requests.get('https://api.lyrics.ovh/v1/${",".join(artists)}/${song["name"]}')
+                url = 'https://api.lyrics.ovh/v1/' + quote(f'{",".join(artists)}/{song["name"]}')
+                print(url)
+                response = requests.get(url)
                 return response.json()['lyrics']
             except Exception as e:
                 logging.error(e, exc_info=True)
