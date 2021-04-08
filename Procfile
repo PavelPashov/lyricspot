@@ -1,1 +1,1 @@
-web: gunicorn smoke_report:app
+web: gunicorn application:app
