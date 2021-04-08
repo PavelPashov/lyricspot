@@ -20,7 +20,8 @@ def get_song_url(song, artists):
             'q_track': song,
             'q_artist': artists,
             'quorum_factor': '1',
-            'apikey': api_key}
+            'apikey': api_key
+            }
         response = requests.get(url + urlencode(params))
         data = response.json()
         track_url = data['message']['body']['track_list'][0]['track']['track_share_url']
@@ -55,11 +56,7 @@ def find_lyrics(url_obj):
 def get_song_lyrics(country, token):
     lyrics_not_found = 'Lyrics not found :('
     
-    song = None
     song = get_current_song(country, token)
-    if song is None:
-        song = get_recently_played_songs(1, token)
-        song = song[0]
     artists = []
     for artist in song['artists']:
         artists.append(artist['name'])
@@ -70,7 +67,12 @@ def get_song_lyrics(country, token):
         if lyrics:
             return lyrics
         else:
-            return lyrics_not_found
+            try:
+                response = requests.get('https://api.lyrics.ovh/v1/${",".join(artists)}/${song["name"]}')
+                return response.json()['lyrics']
+            except Exception as e:
+                logging.error(e, exc_info=True)
+                return lyrics_not_found
     elif lyrics_url == 'instrumental':
         return 'This is an instrumental song'
     else:
