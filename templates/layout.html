@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../static/scripts.js"></script>
+    {% if session['mode'] %}
+        <link href='{{ session['mode']['link'] }}' rel="stylesheet">
+    {% else %}
+        <link href="../static/mystyles.css" rel="stylesheet">
+    {% endif %}
+    <title>LyricSpot
+    </title>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-container-item">
+            <a class="navbar-brand" href="home">LyricSpot
+            </a>
+        </div>
+        <div class="nav-container-item spacer">
+        </div>
+        <div class="nav-container-item">
+          <ul class="navbar-nav">
+            {% if session['country'] %}
+            <li class="nav-item">
+              <a class="nav-link" href="home">Top Tracks
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="home">Top Artists
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="home">Recently Played
+              </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Log out
+                </a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+        <div class="nav-container-item apperance">
+            <a href="#" id="mode">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi sun-moon-icon" viewBox="0 0 16 16">
+            </svg>
+            </a>
+        </div>
+      </div>
+    </nav>
+    {% block main %}{% endblock %}  
+    <footer>
+        <div class="box footer-text">
+        All data provided for free by <a href="https://developer.spotify.com" target="_blank">Spotify</a> & <a href="https://developer.musixmatch.com/" target="_blank">Musixmatch</a>.
+        </div>
+    </footer>
+  </body>
+</html>
