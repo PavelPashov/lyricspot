@@ -1,6 +1,7 @@
 :root {
-    --standard: black;
-    --highlight: white;
+    /* --standard: rgb(13, 0, 24); */
+    --standard: #0e1625;
+    --highlight: #e9e4b6;
     --main-green: #1DB954;
     --main-grey: #DCDCDC;
   }
@@ -261,7 +262,7 @@
         margin-left: 0;
     }
 
-    .navbar div:not(:first-child, :last-child){
+    .navbar div:not(:first-child, :last-child, :nth-child(4)){
       display: none;
     }
 
@@ -274,12 +275,19 @@
       display: block;
     }
 
-    div.apperance {
+    div.apperance, div.logout {
         float: right;
         vertical-align: middle;
         padding-top: 3px;
+        padding-left: 16px;
         margin-right: 1%;
       }
+
+    .logout a:visited, .logout a  {
+        text-decoration: none;
+        color: var(--standard);
+    }
+
     pre {
         white-space: pre-wrap;       /* Since CSS 2.1 */
         white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
@@ -288,6 +296,7 @@
         word-wrap: break-word;       /* Internet Explorer 5.5+ */
     }
     button{
+        border: .5px solid #0e4f1f;
         box-shadow: 2px 2px var(--main-green);
     }
   }

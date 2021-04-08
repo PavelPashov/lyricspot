@@ -39,6 +39,7 @@
             <pre id='lyrics'>{{ lyrics }}</pre>
         </div>
         <script>
+            blurButtons();
             $('body').ready(callSongDetails());
             $('body').ready(getLyics());
             {% if session['mode'] %}
