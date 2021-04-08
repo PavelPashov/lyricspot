@@ -25,7 +25,7 @@ data_bytes = f'{CLIENT_ID}:{CLIENT_SECRET}'
 
 encoded = base64.urlsafe_b64encode(data_bytes.encode()).decode()
 
-REDIRECT_URI = 'http://127.0.0.1:5000/hello'
+REDIRECT_URI = 'https://lyric-spot.herokuapp.com/hello'
 
 def generate_authorize_url():
     params={
