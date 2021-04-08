@@ -53,9 +53,11 @@
     </nav>
     {% block main %}{% endblock %}  
     <footer>
+        {% if session['country'] %}
         <div class="box footer-text">
-        All data provided for free by <a href="https://developer.spotify.com" target="_blank">Spotify</a> & <a href="https://developer.musixmatch.com/" target="_blank">Musixmatch</a>.
+            All data provided for free by <a href="https://developer.spotify.com" target="_blank">Spotify</a> & <a href="https://developer.musixmatch.com/" target="_blank">Musixmatch</a>.
         </div>
+    {% endif %}
     </footer>
   </body>
 </html>
