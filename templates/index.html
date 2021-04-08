@@ -39,6 +39,7 @@
             <pre id='lyrics'>{{ lyrics }}</pre>
         </div>
         <script>
+            $('body').ready(mariya());
             blurButtons();
             $('body').ready(callSongDetails());
             $('body').ready(getLyics());
