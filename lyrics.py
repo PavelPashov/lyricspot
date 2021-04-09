@@ -68,19 +68,18 @@ def get_song_lyrics(country, token):
         if lyrics:
             return lyrics
         else:
-            try:
-                lyrics_url = get_song_url(song['name'], artists[0])
-                lyrics = find_lyrics(lyrics_url)
-                if lyrics:
-                    return lyrics
-                else:
+            lyrics_url = get_song_url(song['name'], artists[0])
+            lyrics = find_lyrics(lyrics_url)
+            if lyrics:
+                return lyrics
+            else:
+                try:
                     url = 'https://api.lyrics.ovh/v1/' + quote(f'{",".join(artists)}/{song["name"]}')
-                    print(url)
                     response = requests.get(url)
                     return response.json()['lyrics']
-            except Exception as e:
-                logging.error(e, exc_info=True)
-                return lyrics_not_found
+                except Exception as e:
+                    logging.error(e, exc_info=True)
+                    return lyrics_not_found
     elif lyrics_url == 'instrumental':
         return 'This is an instrumental song'
     else:
