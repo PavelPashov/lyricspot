@@ -180,6 +180,16 @@
     text-shadow: 0 0 1px var(--main-grey);
   }
 
+  pre a {
+    text-decoration: underline;
+    padding: 8px;
+    color: var(--highlight);
+  }
+
+  pre a:hover{
+    color: var(--main-green);
+  }
+
   progress {
     background: var(--main-green);
     color: var(--highlight);

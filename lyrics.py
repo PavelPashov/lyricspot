@@ -54,13 +54,14 @@ def find_lyrics(url_obj):
         return None
 
 def get_song_lyrics(country, token):
-    lyrics_not_found = 'Lyrics not found :('
-    
     song = get_current_song(country, token)
     artists = []
     for artist in song['artists']:
         artists.append(artist['name'])
     lyrics_url = get_song_url(song['name'], ','.join(artists))
+    
+    google_href = 'https://www.google.com/search?q=' + quote(f"{song['name']} {' '.join(artists)} lyrics")
+    lyrics_not_found = f'Lyrics not found :(\n<a href={google_href} target="_blank">Google it!</a>'
 
     if lyrics_url != 'instrumental':
         lyrics = find_lyrics(lyrics_url)
@@ -68,10 +69,15 @@ def get_song_lyrics(country, token):
             return lyrics
         else:
             try:
-                url = 'https://api.lyrics.ovh/v1/' + quote(f'{",".join(artists)}/{song["name"]}')
-                print(url)
-                response = requests.get(url)
-                return response.json()['lyrics']
+                lyrics_url = get_song_url(song['name'], artists[0])
+                lyrics = find_lyrics(lyrics_url)
+                if lyrics:
+                    return lyrics
+                else:
+                    url = 'https://api.lyrics.ovh/v1/' + quote(f'{",".join(artists)}/{song["name"]}')
+                    print(url)
+                    response = requests.get(url)
+                    return response.json()['lyrics']
             except Exception as e:
                 logging.error(e, exc_info=True)
                 return lyrics_not_found
