@@ -5,7 +5,7 @@ let checkSong = () => {
         + ':' + Math.floor((song.progress/1000)%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
         + '/' + Math.floor(song.duration/60000).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
         + ':' + Math.floor((song.duration/1000)%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}));
-        if (song.progress < 5000){
+        if (song.progress < 2500){
             getLyics();
         }
         playPause(song.is_playing)
