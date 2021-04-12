@@ -1,5 +1,3 @@
-''' code for fetchign lyrics '''
-
 import logging
 import os
 import requests
@@ -11,7 +9,6 @@ from urllib.parse import urlparse, urlencode, quote
 from spotify import get_current_song
 
 api_key = os.environ.get("MUSIXMATCH_API_KEY")
-
 
 def get_song_url(song, artists):
     try:
@@ -41,7 +38,9 @@ def find_lyrics(url_obj):
     try:
         url = f"https://www.musixmatch.com{url_obj}"
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) \
+            AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'
+        }
         req = Request(url=url, headers=headers)
         html_bytes = urlopen(req).read()
         html = html_bytes.decode("utf-8")
@@ -70,8 +69,7 @@ def get_song_lyrics(country, token):
         quote(f'{artists[0]}/{song["name"]}')
     try:
         response = requests.get(url)
-        if response.json()['lyrics']:
-            return response.json()['lyrics']
+        return response.json()['lyrics']
     except Exception as e:
         logging.error(e, exc_info=True)
         lyrics_url = get_song_url(song['name'], artists[0])
