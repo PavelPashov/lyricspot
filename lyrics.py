@@ -21,7 +21,6 @@ def get_song_url(song, artists):
             'apikey': api_key
         }
         response = requests.get(url + urlencode(params))
-        print(urlencode(params))
         data = response.json()
         track_url = data['message']['body']['track_list'][0]['track']['track_share_url']
         track_url_obj = urlparse(track_url)
@@ -39,11 +38,12 @@ def find_lyrics(url_obj):
             AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'
         }
         req = Request(url=url, headers=headers)
-        html_bytes = urlopen(req).read()
+        html_bytes = urlopen(req, timeout=10).read()
         html = html_bytes.decode("utf-8")
         soup = BeautifulSoup(html, "html.parser")
         elements = soup.find_all(attrs={"class": "mxm-lyrics__content"})
         lyrics = ''
+        print('Should be scraping')
         for element in elements:
             lyrics += element.text
         return lyrics
@@ -72,8 +72,10 @@ def get_song_lyrics(country, token):
         lyrics_url = get_song_url(song['name'], artists[0])
         lyrics = find_lyrics(lyrics_url)
         if lyrics:
+            print('Getting lyrics from Musixmatch')
             return lyrics
         else:
+            print('Scraped but no lyrics?!')
             return lyrics_not_found
     else:
         return lyrics_not_found
