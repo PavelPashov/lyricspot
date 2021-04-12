@@ -46,6 +46,7 @@ def find_lyrics(url_obj):
         elements = soup.find_all(attrs={"class": "mxm-lyrics__content"})
         lyrics = ''
         for element in elements:
+            print(element.text)
             lyrics += element.text
         print(url)
         return lyrics
