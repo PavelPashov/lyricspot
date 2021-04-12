@@ -10,7 +10,6 @@ from spotify import get_current_song
 
 api_key = os.environ.get("MUSIXMATCH_API_KEY")
 
-
 def get_song_url(song, artists):
     try:
         url = 'https://api.musixmatch.com/ws/1.1/track.search?'
@@ -22,10 +21,10 @@ def get_song_url(song, artists):
             'apikey': api_key
         }
         response = requests.get(url + urlencode(params))
+        print(urlencode(params))
         data = response.json()
         track_url = data['message']['body']['track_list'][0]['track']['track_share_url']
         track_url_obj = urlparse(track_url)
-        print(song, artists)
         return track_url_obj.path
     except Exception as e:
         logging.error(e, exc_info=True)
@@ -46,9 +45,7 @@ def find_lyrics(url_obj):
         elements = soup.find_all(attrs={"class": "mxm-lyrics__content"})
         lyrics = ''
         for element in elements:
-            print(element.text)
             lyrics += element.text
-        print(url)
         return lyrics
     except Exception as e:
         logging.error(e, exc_info=True)
@@ -69,7 +66,6 @@ def get_song_lyrics(country, token):
         quote(f'{artists[0]}/{song["name"]}')
     try:
         response = requests.get(url)
-        print(response)
         return response.json()['lyrics']
     except Exception as e:
         logging.error(e, exc_info=True)
