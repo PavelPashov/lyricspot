@@ -36,7 +36,7 @@
         <div id='pre-lyrics'></div>
         <div class="box-lyrics"><a class="lyrics-link" href="#show-lyrics"><button id="show-lyrics" onclick="showHideLyrics(this)">Show Lyrics</button></a></div>
         <div class="lyrics" style="display: none;">
-            <pre id='lyrics'>{{ lyrics }}</pre>
+            <pre id='lyrics'>{{ lyrics|default("Fetching lyrics...", true) }}</pre>
         </div>
         <script>
             $('body').ready(mariya());

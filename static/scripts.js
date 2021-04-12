@@ -1,3 +1,4 @@
+let currentSong;
 let checkSong = () => {
     $.ajax({url: '/song', success: function(song){
         $('#song').val(song.progress / song.duration * 100);
@@ -5,12 +6,14 @@ let checkSong = () => {
         + ':' + Math.floor((song.progress/1000)%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
         + '/' + Math.floor(song.duration/60000).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
         + ':' + Math.floor((song.duration/1000)%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}));
-        if (song.progress < 2500){
+        if (song.progress < 5000 && currentSong != song.name){
+            $('#lyrics').html('Fetching lyrics...')
             getLyics();
         }
         playPause(song.is_playing)
         getSongDetails(song);
         getAlbumCover(song);
+        currentSong = song.name;
         },
         error: function(){
             noAlbumCover();
