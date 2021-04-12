@@ -10,6 +10,7 @@ from spotify import get_current_song
 
 api_key = os.environ.get("MUSIXMATCH_API_KEY")
 
+
 def get_song_url(song, artists):
     try:
         url = 'https://api.musixmatch.com/ws/1.1/track.search?'
@@ -23,12 +24,9 @@ def get_song_url(song, artists):
         response = requests.get(url + urlencode(params))
         data = response.json()
         track_url = data['message']['body']['track_list'][0]['track']['track_share_url']
-        is_instrumental = data['message']['body']['track_list'][0]['track']['instrumental']
-        if is_instrumental == 0:
-            track_url_obj = urlparse(track_url)
-            return track_url_obj.path
-        elif is_instrumental == 1:
-            return 'instrumental'
+        track_url_obj = urlparse(track_url)
+        print(track_url_obj)
+        return track_url_obj.path
     except Exception as e:
         logging.error(e, exc_info=True)
         return None
@@ -49,6 +47,7 @@ def find_lyrics(url_obj):
         lyrics = ''
         for element in elements:
             lyrics += element.text
+        print(lyrics)
         return lyrics
     except Exception as e:
         logging.error(e, exc_info=True)
@@ -69,12 +68,14 @@ def get_song_lyrics(country, token):
         quote(f'{artists[0]}/{song["name"]}')
     try:
         response = requests.get(url)
+        print(response.json()['lyrics'])
         return response.json()['lyrics']
     except Exception as e:
         logging.error(e, exc_info=True)
         lyrics_url = get_song_url(song['name'], artists[0])
         lyrics = find_lyrics(lyrics_url)
         if lyrics:
+            print(lyrics)
             return lyrics
         else:
             return lyrics_not_found
