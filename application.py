@@ -19,10 +19,6 @@ from lyrics import get_song_lyrics
 
 app = Flask(__name__)
 
-CLIENT_ID = os.environ.get("CLIENT_ID")
-CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
-api_key = os.environ.get("CLIENT_SECRET")
-
 # stuff used for session
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
