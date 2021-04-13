@@ -42,6 +42,7 @@ def find_lyrics(url_obj):
         elements = soup.find_all(attrs={"class": "mxm-lyrics__content"})
         elements = soup.find_all(attrs={"class": "mxm-lyrics__content"})
         lyrics = ''
+        print(soup)
         print('Should be scraping')
         for element in elements:
             lyrics += element.text
