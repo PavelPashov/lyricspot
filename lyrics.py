@@ -8,7 +8,7 @@ from urllib.parse import urlparse, urlencode, quote
 
 from spotify import get_current_song
 
-api_key = os.environ.get("MUSIXMATCH_API_KEY")
+api_key = '0844e0e76802e5fc789da4141e6afdd8'
 
 def get_song_url(song, artists):
     try:
