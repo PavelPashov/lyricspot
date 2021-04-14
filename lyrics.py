@@ -1,5 +1,6 @@
 import logging
 import os
+import random
 import requests
 
 from bs4 import BeautifulSoup
@@ -9,6 +10,16 @@ from urllib.parse import urlparse, urlencode, quote
 from spotify import get_current_song
 
 api_key = os.environ.get("MUSIXMATCH_API_KEY")
+
+USER_AGENTS = [
+    'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
+    'Mozilla/5.0 (iPad; CPU OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4',
+    'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)',
+    'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393'
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:11.0) Gecko/20100101 Firefox/11.0',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36']
 
 def get_song_url(song, artists):
     try:
@@ -33,13 +44,9 @@ def get_song_url(song, artists):
 def find_lyrics(url_obj):
     try:
         url = f"https://www.musixmatch.com{url_obj}"
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) \
-            AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'
-        }
+        headers = {'User-Agent': random.choice(USER_AGENTS)}
         req = requests.get(url=url, headers=headers, timeout=10, stream=True)
         soup = BeautifulSoup(req.content, "html.parser")
-        elements = soup.find_all(attrs={"class": "mxm-lyrics__content"})
         elements = soup.find_all(attrs={"class": "mxm-lyrics__content"})
         lyrics = ''
         print(soup)
