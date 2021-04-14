@@ -44,7 +44,7 @@ def get_song_url(song, artists):
 def find_lyrics(url_obj):
     try:
         url = f"https://www.musixmatch.com{url_obj}"
-        headers = {'User-Agent': random.choice(USER_AGENTS)}
+        headers = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0'}
         req = requests.get(url=url, headers=headers, timeout=10, stream=True)
         soup = BeautifulSoup(req.content, "html.parser")
         elements = soup.find_all(attrs={"class": "mxm-lyrics__content"})
