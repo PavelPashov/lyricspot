@@ -1,27 +1,19 @@
+"""functions used for finding and scraping lyrics"""
+
 import logging
 import os
-import random
 import requests
 
 from bs4 import BeautifulSoup
-from urllib.request import urlopen, Request
 from urllib.parse import urlparse, urlencode, quote
 
 from spotify import get_current_song
 
-api_key = os.environ.get("MUSIXMATCH_API_KEY")
+musixmatch_key = os.environ.get("MUSIXMATCH_API_KEY")
+genius_key = os.environ.get("GENIUS_API_KEY")
 
-USER_AGENTS = [
-    'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
-    'Mozilla/5.0 (iPad; CPU OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4',
-    'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)',
-    'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393'
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:11.0) Gecko/20100101 Firefox/11.0',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36']
 
-def get_song_url(song, artists):
+def get_song_url_musixmatch(song, artists):
     try:
         url = 'https://api.musixmatch.com/ws/1.1/track.search?'
         params = {
@@ -29,7 +21,7 @@ def get_song_url(song, artists):
             'q_track': song,
             'q_artist': artists,
             'quorum_factor': '1',
-            'apikey': api_key
+            'apikey': musixmatch_key
         }
         response = requests.get(url + urlencode(params))
         data = response.json()
@@ -41,19 +33,76 @@ def get_song_url(song, artists):
         return None
 
 
-def find_lyrics(url_obj):
+def find_lyrics_musixmatch(path):
     try:
-        url = f"https://www.musixmatch.com{url_obj}"
-        headers = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0'}
-        req = requests.get(url=url, headers=headers, timeout=10, stream=True)
-        soup = BeautifulSoup(req.content, "html.parser")
+        url = f"https://www.musixmatch.com{path}"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) \
+            AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'
+        }
+        response = requests.get(url=url, headers=headers, timeout=5)
+        soup = BeautifulSoup(response.content, "html.parser")
         elements = soup.find_all(attrs={"class": "mxm-lyrics__content"})
         lyrics = ''
-        print(soup)
-        print('Should be scraping')
         for element in elements:
             lyrics += element.text
+        if lyrics != '':
+            return lyrics
+        else:
+            print(soup)
+    except Exception as e:
+        logging.error(e, exc_info=True)
+        return None
+
+
+def find_song_genius(song, artists):
+    try:
+        url = 'http://api.genius.com/search?'
+        params = {
+            'q': song + ' ' + artists,
+        }
+        headers = {
+            'Authorization': f'Bearer {genius_key}'
+        }
+        response = requests.get(url=url + urlencode(params), headers=headers)
+        data = response.json()
+        for track in data['response']['hits']:
+            if (track['result']['title'].lower() in song.lower() or
+                song.lower() in track['result']['full_title'].lower())\
+               and artists.lower() == track['result']['primary_artist']['name'].lower().strip():
+                return track['result']['path']
+    except Exception as e:
+        logging.error(e, exc_info=True)
+        return None
+
+
+def find_lyrics_genius(path):
+    try:
+        URL = "http://genius.com" + path
+        response = requests.get(url=URL)
+        soup = BeautifulSoup(response.content, "html.parser")
+        lyrics1 = soup.find("div", class_="lyrics")
+        lyrics2 = soup.find("div", class_="Lyrics__Container-sc-1ynbvzw-2 jgQsqn")
+        if lyrics1:
+            lyrics = lyrics1.get_text()
+        elif lyrics2:
+            lyrics = lyrics2.get_text()
+        elif lyrics1 == lyrics2 is None:
+            lyrics = None
         return lyrics
+    except Exception as e:
+        logging.error(e, exc_info=True)
+        return None
+
+
+def find_lyrics_ovh(song, artist):
+    url = 'https://api.lyrics.ovh/v1/' + quote(f'{artist}/{song}')
+    try:
+        response = requests.get(url)
+        if response.json()['lyrics']:
+            return response.json()['lyrics']
+        else:
+            return None
     except Exception as e:
         logging.error(e, exc_info=True)
         return None
@@ -61,28 +110,25 @@ def find_lyrics(url_obj):
 
 def get_song_lyrics(country, token):
     song = get_current_song(country, token)
-    artists = []
-    for artist in song['artists']:
-        artists.append(artist['name'])
+    artist = song['artists'][0]['name']
 
-    google_href = 'https://www.google.com/search?q=' + \
-        quote(f"{song['name']} {' '.join(artists)} lyrics")
+    google_href = 'https://www.google.com/search?q=' + quote(f"{song['name']} {artist} lyrics")
     lyrics_not_found = f'Lyrics not found :(\n<a href={google_href} target="_blank">Google it!</a>'
 
-    url = 'https://api.lyrics.ovh/v1/' + \
-        quote(f'{artists[0]}/{song["name"]}')
-    try:
-        response = requests.get(url)
-        return response.json()['lyrics']
-    except Exception as e:
-        logging.error(e, exc_info=True)
-        lyrics_url = get_song_url(song['name'], artists[0])
-        lyrics = find_lyrics(lyrics_url)
+    lyrics = find_lyrics_ovh(song['name'], artist)
+    if lyrics:
+        return lyrics
+    else:
+        path = find_song_genius(song['name'], artist)
+        lyrics = find_lyrics_genius(path)
         if lyrics:
-            print('Getting lyrics from Musixmatch')
+            print('genius.com', path)
             return lyrics
         else:
-            print('Scraped but no lyrics?!')
-            return lyrics_not_found
-    else:
-        return lyrics_not_found
+            path = get_song_url_musixmatch(song['name'], artist)
+            lyrics = find_lyrics_musixmatch(path)
+            if lyrics:
+                print('musixmatch.com', path)
+                return lyrics
+            else:
+                return lyrics_not_found

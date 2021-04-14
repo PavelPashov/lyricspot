@@ -112,7 +112,7 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 16px;
-    width: 90%;
+    width: 75%;
     margin-bottom: 16px;
     text-align: center;
   }
@@ -174,10 +174,17 @@
 
   pre {
     color: var(--highlight);
-    font-weight: bold;
+    font-weight: 300;
     font-size: 16px;
+    width: auto;
     margin-bottom: 100px;
     text-shadow: 0 0 1px var(--main-grey);
+    text-align: center;
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
   }
 
   pre a {
