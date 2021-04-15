@@ -22,13 +22,12 @@ Session(app)
 
 
 @app.route("/")
-@refresh_token
 def index():
     url = generate_authorize_url()
     if not session.get('token'):
         return render_template('login.html', url=url)
     else:
-        return render_template('index.html')
+        return redirect('/home')
 
 
 @app.route("/hello")
