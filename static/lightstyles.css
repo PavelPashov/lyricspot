@@ -185,13 +185,13 @@
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
   }
 
-  pre a {
+  pre a, .collection-link a {
     text-decoration: underline;
     padding: 8px;
     color: var(--highlight);
   }
 
-  pre a:hover{
+  pre a:hover, .collection-link a:hover {
     color: var(--main-green);
   }
 
@@ -269,6 +269,26 @@
 
   .footer-text a:hover {
     color: var(--main-green);
+  }
+
+  .collection, .collection-link {
+    text-align: center;
+    display: block;
+    margin-top: 64px;
+    margin-bottom: 64px;
+  }
+
+  .collection-link {
+    margin-top: 32px;
+  }
+
+  input {
+    text-align: center;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    padding: 8px;
+    margin-bottom: 16px;
   }
   
 

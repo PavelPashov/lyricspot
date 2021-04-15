@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block main %}
+    <body onload="">
+        <div class="box">
+            <div class="collection">
+                <form action="{{ url_for('collection') }}" method="POST" >
+                <h3>Create a collection with your top 50 tracks of all time!</h3>
+                <p>Please input the below details:</p>
+                <input name="coll_name", placeholder="Collection name" maxlength="40" required>
+                <input name="password", placeholder="Password" required>
+                <button>Create Collection</button>
+                </form>
+            </div>
+        </div>
+        <script>
+        </script>
+    </body>
+{% endblock %}

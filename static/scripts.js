@@ -198,3 +198,25 @@ const mariya = () => {
         $('link').attr('href', '../static/mariya.css');
     }
 }
+
+const checkProgress = (project=null) => {
+    $.ajax({
+        type: "POST",
+        url: '/check',
+        data: {project: project},
+        success: function(collProgress){
+            $('#collection_progress').val(parseInt(collProgress));
+            $('p').html(`${collProgress}%`)
+    }});
+}
+
+const updateCollProgress = () => {
+    checkProgress();
+    if ($('#collection_progress').val() != '100'){
+        setTimeout(updateCollProgress, interval);
+    }
+    else {
+        $('h3').html('All done!')
+        $('.collection-link').css("display", "block");
+    }
+}

@@ -61,5 +61,12 @@
         </div>
     {% endif %}
     </footer>
+    <script>
+      {% if session['mode'] %}
+      $('body').ready(changeMode("{{ session['mode']['name'] }}"));
+      {% else %}
+      $('body').ready(changeMode());
+      {% endif %}
+    </script>
   </body>
 </html>
