@@ -1,16 +1,12 @@
-import os
 import logging
+import time
+
 from flask import Flask, flash, redirect, render_template, request, jsonify, session
 from flask_session import Session
-from tempfile import mkdtemp
-from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
-from werkzeug.security import check_password_hash, generate_password_hash
 
-import json
-import requests
-import base64
-import time
-from urllib.parse import urlparse, urlencode, quote
+# from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
+# from werkzeug.security import check_password_hash, generate_password_hash
+
 
 from spotify import generate_authorize_url, generate_access_token_url, get_current_song, get_recently_played_songs, \
     get_user_info, refresh_token, spotify_player, spotify_pause, spotify_play
@@ -24,6 +20,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+
 @app.route("/")
 def index():
     url = generate_authorize_url()
@@ -32,20 +29,22 @@ def index():
     else:
         return render_template('index.html')
 
+
 @app.route("/hello")
 def hello():
     token = ''
     response = generate_access_token_url()
     token = response.json()['access_token']
     r_token = response.json()['refresh_token']
-    
+
     country = get_user_info(token)
     session['country'] = country
     session['token'] = token
     session['r_token'] = r_token
     session['token_time'] = int(time.time())
-    
+
     return redirect('/home')
+
 
 @app.route("/home")
 @login_required
@@ -53,12 +52,14 @@ def home():
 
     return render_template('index.html')
 
+
 @app.route("/lyrics")
 @login_required
 @refresh_token
 def lyrics():
     lyrics = get_song_lyrics(session['country'], session['token'])
     return lyrics
+
 
 @app.route("/song")
 @login_required
@@ -76,14 +77,16 @@ def songs():
         logging.error(e, exc_info=True)
         return None
 
+
 @app.route('/last')
 @login_required
 def last():
     songs = get_recently_played_songs(5, session['token'])
     if songs:
         return jsonify(songs)
-    
-@app.route('/player', methods = ['POST'])
+
+
+@app.route('/player', methods=['POST'])
 @login_required
 @refresh_token
 def player():
@@ -91,7 +94,8 @@ def player():
         response = spotify_player(request.form['option'], session['token'])
         return '', response.status_code
 
-@app.route('/pause', methods = ['POST'])
+
+@app.route('/pause', methods=['POST'])
 @login_required
 @refresh_token
 def pause():
@@ -102,7 +106,8 @@ def pause():
         response = spotify_pause(session['token'])
         return '', response.status_code
 
-@app.route('/play', methods = ['POST'])
+
+@app.route('/play', methods=['POST'])
 @login_required
 @refresh_token
 def play():
@@ -110,7 +115,8 @@ def play():
         response = spotify_play(session['token'])
         return '', response.status_code
 
-@app.route('/mode', methods = ['POST'])
+
+@app.route('/mode', methods=['POST'])
 @login_required
 @refresh_token
 def mode():
@@ -119,12 +125,12 @@ def mode():
             if request.form['option'] == 'dark':
                 session['mode'] = {'link': '../static/darkstyles.css', 'name': 'dark'}
             else:
-                session['mode'] = {'link':'../static/lightstyles.css', 'name': 'light'}
+                session['mode'] = {'link': '../static/lightstyles.css', 'name': 'light'}
             return session['mode']
         except Exception as e:
             logging.error(e, exc_info=True)
             return None
-    
+
 
 @app.route('/logout')
 def logout():
