@@ -82,7 +82,8 @@ def find_song_genius(song, artists):
 
 def find_lyrics_genius(path):
     if path:
-        pattern = re.compile(r'([a-z])([A-Z])')
+        pattern_letters = re.compile(r'([a-z]|[.?!;])([A-Z])')
+        pattern_brackets = re.compile(r'(\[\w.+\])')
         try:
             URL = "http://genius.com" + path
             response = requests.get(url=URL)
@@ -92,7 +93,9 @@ def find_lyrics_genius(path):
             if lyrics1:
                 lyrics = lyrics1.get_text()
             elif lyrics2:
-                lyrics = re.sub(pattern, r'\1\n\2', lyrics2.get_text())
+                # doing this because genius provides 2 different pages randomly
+                lyrics = re.sub(pattern_letters, r'\1\n\2', lyrics2.get_text())
+                lyrics = re.sub(pattern_brackets, r'\n\1\n', lyrics)
             elif lyrics1 == lyrics2 is None:
                 lyrics = None
             return lyrics
