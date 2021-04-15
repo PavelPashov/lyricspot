@@ -95,7 +95,7 @@ def find_lyrics_genius(path):
             elif lyrics2:
                 # doing this because genius provides 2 different pages randomly
                 lyrics = re.sub(pattern_letters, r'\1\n\2', lyrics2.get_text())
-                lyrics = re.sub(pattern_brackets, r'\n\1\n', lyrics)
+                lyrics = re.sub(pattern_brackets, r'\n\n\1\n\n', lyrics)
             elif lyrics1 == lyrics2 is None:
                 lyrics = None
             return lyrics
