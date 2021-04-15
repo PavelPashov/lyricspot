@@ -2,6 +2,7 @@
 
 import logging
 import os
+import re
 import requests
 
 from bs4 import BeautifulSoup
@@ -34,24 +35,27 @@ def get_song_url_musixmatch(song, artists):
 
 
 def find_lyrics_musixmatch(path):
-    try:
-        url = f"https://www.musixmatch.com{path}"
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) \
-            AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'
-        }
-        response = requests.get(url=url, headers=headers, timeout=5)
-        soup = BeautifulSoup(response.content, "html.parser")
-        elements = soup.find_all(attrs={"class": "mxm-lyrics__content"})
-        lyrics = ''
-        for element in elements:
-            lyrics += element.text
-        if lyrics != '':
-            return lyrics
-        else:
-            print(soup)
-    except Exception as e:
-        logging.error(e, exc_info=True)
+    if path:
+        try:
+            url = f"https://www.musixmatch.com{path}"
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) \
+                AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'
+            }
+            response = requests.get(url=url, headers=headers, timeout=5)
+            soup = BeautifulSoup(response.content, "html.parser")
+            elements = soup.find_all(attrs={"class": "mxm-lyrics__content"})
+            lyrics = ''
+            for element in elements:
+                lyrics += element.text
+            if lyrics != '':
+                return lyrics
+            else:
+                print(soup)
+        except Exception as e:
+            logging.error(e, exc_info=True)
+            return None
+    else:
         return None
 
 
@@ -77,23 +81,26 @@ def find_song_genius(song, artists):
 
 
 def find_lyrics_genius(path):
-    try:
-        URL = "http://genius.com" + path
-        response = requests.get(url=URL)
-        soup = BeautifulSoup(response.content, "html.parser")
-        lyrics1 = soup.find("div", class_="lyrics")
-        lyrics2 = soup.find("div", class_="Lyrics__Container-sc-1ynbvzw-2 jgQsqn")
-        if lyrics1:
-            lyrics = lyrics1.get_text()
-        elif lyrics2:
-            lyrics = lyrics2.get_text()
-        elif lyrics1 == lyrics2 is None:
-            lyrics = None
-        return lyrics
-    except Exception as e:
-        logging.error(e, exc_info=True)
+    if path:
+        pattern = re.compile(r'([a-z])([A-Z])')
+        try:
+            URL = "http://genius.com" + path
+            response = requests.get(url=URL)
+            soup = BeautifulSoup(response.content, "html.parser")
+            lyrics1 = soup.find("div", class_="lyrics")
+            lyrics2 = soup.find("div", class_="Lyrics__Container-sc-1ynbvzw-2 jgQsqn")
+            if lyrics1:
+                lyrics = lyrics1.get_text()
+            elif lyrics2:
+                lyrics = re.sub(pattern, r'\1\n\2', lyrics2.get_text())
+            elif lyrics1 == lyrics2 is None:
+                lyrics = None
+            return lyrics
+        except Exception as e:
+            logging.error(e, exc_info=True)
+            return None
+    else:
         return None
-
 
 def find_lyrics_ovh(song, artist):
     url = 'https://api.lyrics.ovh/v1/' + quote(f'{artist}/{song}')
