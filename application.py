@@ -22,6 +22,7 @@ Session(app)
 
 
 @app.route("/")
+@refresh_token
 def index():
     url = generate_authorize_url()
     if not session.get('token'):
@@ -48,6 +49,7 @@ def hello():
 
 @app.route("/home")
 @login_required
+@refresh_token
 def home():
 
     return render_template('index.html')

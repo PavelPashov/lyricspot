@@ -27,15 +27,17 @@ encoded = base64.urlsafe_b64encode(data_bytes.encode()).decode()
 
 REDIRECT_URI = 'https://lyric-spot.herokuapp.com/hello'
 
+
 def generate_authorize_url():
-    params={
+    params = {
         'client_id': CLIENT_ID,
         'response_type': 'code',
         'redirect_uri': REDIRECT_URI,
         'scope': SCOPE,
     }
-    
+
     return f'{SPOTIFY_AUTH_URL}?{urlencode(params)}'
+
 
 def generate_access_token_url():
     auth_token = request.args['code']
@@ -51,34 +53,36 @@ def generate_access_token_url():
     post_request = requests.post(SPOTIFY_TOKEN_URL, data=code_payload)
     return post_request
 
+
 def get_refresh_token(r_token):
     url = 'https://accounts.spotify.com/api/token'
-    
+
     headers = {
         'Authorization': f'Basic {encoded}',
     }
-    
+
     code_payload = {
         'grant_type': 'refresh_token',
         'refresh_token': r_token,
     }
-    
+
     response = requests.post(url=url, data=code_payload, headers=headers)
     data = response.json()
-    
+
     return data['access_token']
+
 
 def get_user_info(token):
     try:
         url = 'https://api.spotify.com/v1/me'
         headers = {
-                'accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': f'Bearer {token}',
-            }
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}',
+        }
         response = requests.get(url=url, headers=headers)
         data = response.json()
-        
+
         user_country = data['country']
 
         return user_country
@@ -86,17 +90,18 @@ def get_user_info(token):
         logging.error(e, exc_info=True)
         return None
 
+
 def get_current_song(country_code, token):
     try:
         url = 'https://api.spotify.com/v1/me/player/currently-playing'
-        
+
         headers = {
             'market': country_code,
             'accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {token}',
         }
-        
+
         response = requests.get(url=url, headers=headers)
         data = response.json()
         return parse_current_song_data(data)
@@ -104,16 +109,17 @@ def get_current_song(country_code, token):
         logging.error(e, exc_info=True)
         return None
 
+
 def get_recently_played_songs(limit, token):
     try:
         url = f'https://api.spotify.com/v1/me/player/recently-played?limit={limit}'
-        
+
         headers = {
             'accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {token}',
         }
-        
+
         response = requests.get(url=url, headers=headers)
         data = response.json()
         songs = []
@@ -134,6 +140,7 @@ def get_recently_played_songs(limit, token):
         logging.error(e, exc_info=True)
         return None
 
+
 def parse_current_song_data(data):
     song = {}
     artists = []
@@ -149,9 +156,10 @@ def parse_current_song_data(data):
     song['image_link'] = data['item']['album']['images']
     return song
 
+
 def spotify_player(command, token):
     url = f'https://api.spotify.com/v1/me/player/{command}'
-    
+
     headers = {
         'accept': 'application/json',
         'Content-Type': 'application/json',
@@ -162,7 +170,8 @@ def spotify_player(command, token):
         return response
     except Exception as e:
         logging.error(e, exc_info=True)
-        
+
+
 def refresh_token(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -174,9 +183,10 @@ def refresh_token(f):
         return f(*args, **kwargs)
     return decorated_function
 
+
 def spotify_pause(token):
-    url = f'https://api.spotify.com/v1/me/player/pause'
-    
+    url = 'https://api.spotify.com/v1/me/player/pause'
+
     headers = {
         'accept': 'application/json',
         'Content-Type': 'application/json',
@@ -187,10 +197,11 @@ def spotify_pause(token):
         return response
     except Exception as e:
         logging.error(e, exc_info=True)
-        
+
+
 def spotify_play(token):
-    url = f'https://api.spotify.com/v1/me/player/play'
-    
+    url = 'https://api.spotify.com/v1/me/player/play'
+
     headers = {
         'accept': 'application/json',
         'Content-Type': 'application/json',
@@ -201,7 +212,7 @@ def spotify_play(token):
         "uris": [session['uri']],
         "position_ms": session['progress']
     }
-    
+
     try:
         response = requests.put(url=url, data=json.dumps(code_payload), headers=headers)
         return response
