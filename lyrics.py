@@ -82,7 +82,7 @@ def find_song_genius(song, artists):
 
 def find_lyrics_genius(path):
     if path:
-        pattern_letters = re.compile(r'([a-z]|[.?!;])([A-Z])')
+        pattern_letters = re.compile(r'([a-z]|[.?!;")\'}/])([A-Z])')
         pattern_brackets = re.compile(r'(\[\w.+\])')
         try:
             URL = "http://genius.com" + path
