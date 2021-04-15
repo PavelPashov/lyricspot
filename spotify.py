@@ -175,12 +175,13 @@ def spotify_player(command, token):
 def refresh_token(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        r_token = session.get('r_token')
-        token_time = session.get('token_time')
-        if int(token_time) + 3000 > int(time.time()):
-            session['token'] = get_refresh_token(r_token)
-            session['token_time'] = int(time.time())
-        return f(*args, **kwargs)
+        if session:
+            r_token = session.get('r_token')
+            token_time = session.get('token_time')
+            if int(token_time) + 3000 > int(time.time()):
+                session['token'] = get_refresh_token(r_token)
+                session['token_time'] = int(time.time())
+            return f(*args, **kwargs)
     return decorated_function
 
 
