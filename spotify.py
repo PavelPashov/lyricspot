@@ -11,6 +11,7 @@ import requests
 
 CLIENT_ID = os.environ.get("CLIENT_ID")
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
+DEV = os.environ.get("DEV")
 
 SCOPE = 'user-read-email user-read-recently-played \
         user-read-recently-played user-read-playback-state user-read-currently-playing user-read-private \
@@ -26,6 +27,9 @@ data_bytes = f'{CLIENT_ID}:{CLIENT_SECRET}'
 encoded = base64.urlsafe_b64encode(data_bytes.encode()).decode()
 
 REDIRECT_URI = 'https://lyric-spot.herokuapp.com/hello'
+
+if DEV:
+    REDIRECT_URI = 'http://127.0.0.1:5000/hello'
 
 
 def generate_authorize_url():
