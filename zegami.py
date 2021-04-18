@@ -11,7 +11,7 @@ from tempfile import NamedTemporaryFile
 
 YAML_CONF = """
 name: {name}
-description: stress test collection
+description: Spotify Top 50 Tracks
 enable_clustering: True
 imageset_type: url
 dataset_column: image_link
