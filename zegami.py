@@ -12,7 +12,7 @@ from tempfile import NamedTemporaryFile
 YAML_CONF = """
 name: {name}
 description: stress test collection
-enable_clustering: False
+enable_clustering: True
 imageset_type: url
 dataset_column: image_link
 url_template: {url_template}
