@@ -1,19 +1,23 @@
 import logging
 import time
+import os
 
 from flask import Flask, flash, redirect, render_template, request, jsonify, session
 from flask_session import Session
 
-# from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
-# from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 
 
-from spotify import generate_authorize_url, generate_access_token_url, get_current_song, get_recently_played_songs, \
+from spotify import generate_authorize_url, generate_access_token_url, get_current_song, \
     get_user_info, refresh_token, spotify_player, spotify_pause, spotify_play
+from toptracks import get_csv_path
 from helpers import login_required
 from lyrics import get_song_lyrics
+from zegami import create_collection, create_yaml_file, get_coll_id, delete_file, check_progress, publish_coll
 
 app = Flask(__name__)
+
+hash_pw = os.environ.get("PASSWORD")
 
 # stuff used for session
 app.config["SESSION_PERMANENT"] = False
@@ -78,15 +82,6 @@ def songs():
         logging.error(e, exc_info=True)
         return None
 
-
-@app.route('/last')
-@login_required
-def last():
-    songs = get_recently_played_songs(5, session['token'])
-    if songs:
-        return jsonify(songs)
-
-
 @app.route('/player', methods=['POST'])
 @login_required
 @refresh_token
@@ -137,3 +132,51 @@ def mode():
 def logout():
     session.clear()
     return redirect('/')
+
+
+@app.route('/check', methods=['POST'])
+@login_required
+def check():
+    if request.method == "POST":
+        try:
+            progress = check_progress(session['coll_id'])
+            progress = progress * 80
+            if progress == 80 and session['is_published'] is True:
+                progress = check_progress(session['coll_id'], project='public')
+                progress = int(progress * 20) + 80
+            if check_progress(session['coll_id']) == 1 and session['is_published'] is False:
+                publish_coll(session['coll_id'])
+            return str(int(progress))
+        except Exception as e:
+            logging.error(e, exc_info=True)
+            return None
+
+
+@app.route('/publish', methods=["POST"])
+@login_required
+def publish():
+    if request.method == "POST":
+        publish_coll(session['coll_id'])
+
+
+@app.route('/collection', methods=["GET", "POST"])
+@login_required
+def collection():
+    if request.method == "POST":
+        coll_name = request.form['coll_name']
+        password = request.form['password']
+        session['is_published'] = False
+        if check_password_hash(hash_pw.strip("'"), password):
+            csv_path = get_csv_path('long_term')
+            yaml_path = create_yaml_file(str(coll_name), csv_path)
+            coll_id = get_coll_id(create_collection(yaml_path))
+            delete_file([yaml_path, csv_path])
+            session['coll_id'] = coll_id
+            coll_url = f'https://staging.zegami.com/collections/public-{coll_id}'
+            message = "Creating your collection!"
+            return render_template('progress.html', coll_url=coll_url, message=message)
+        else:
+            message = "Wrong password, please try again!"
+            return render_template('progress.html', message=message)
+    else:
+        return render_template('collection.html')

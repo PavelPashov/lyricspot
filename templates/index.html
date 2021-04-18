@@ -43,11 +43,6 @@
             blurButtons();
             $('body').ready(callSongDetails());
             $('body').ready(getLyics());
-            {% if session['mode'] %}
-            $('body').ready(changeMode("{{ session['mode']['name'] }}"));
-            {% else %}
-            $('body').ready(changeMode());
-            {% endif %}
             let interval = 1000;
             setTimeout(checkSong, interval);
         </script>

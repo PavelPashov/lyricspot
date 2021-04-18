@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block main %}
+    <body onload="">
+        <div class="box">
+            <div class="collection">
+                <h3>{{ message }}</h3>
+                {% if message == 'Creating your collection!' %}
+                <progress id="collection_progress" value="1" max="100"></progress>
+                <p>0%</p>
+                <div class="collection-link" style="display:none;">
+                    <a href="{{ coll_url }}" target="_blank"> Visit the collection </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <script>
+            let interval = 1000;
+            setTimeout(updateCollProgress, interval);
+        </script>
+    </body>
+{% endblock %}
