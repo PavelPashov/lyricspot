@@ -3,13 +3,16 @@
     <body onload="">
         <div class="box">
             <div class="collection">
-                <form action="{{ url_for('collection') }}" method="POST" >
+                <form action="{{ url_for('collection') }}" method="POST" onsubmit="hideButton('#create_coll');">
                 <h3>Create a collection with your top 50 tracks of all time!</h3>
                 <p>Please input the below details:</p>
                 <input name="coll_name", placeholder="Collection name" maxlength="40" required>
                 <input name="password", placeholder="Password" required>
-                <button>Create Collection</button>
+                <button id="create_coll" type="submit">Create Collection</button>
                 </form>
+                <div class="box loader-wrap">
+                    <div class="loader"></div>
+                </div>
             </div>
         </div>
         <script>

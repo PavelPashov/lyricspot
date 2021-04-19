@@ -13,7 +13,7 @@ CLIENT_ID = os.environ.get("CLIENT_ID")
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 DEV = os.environ.get("DEV")
 
-SCOPE = 'user-read-email user-read-recently-played \
+SCOPE = 'user-read-email user-read-recently-played user-top-read \
         user-read-recently-played user-read-playback-state user-read-currently-playing user-read-private \
         user-modify-playback-state'
 
