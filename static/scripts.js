@@ -199,6 +199,12 @@ const mariya = () => {
     }
 }
 
+const hideButton = (element) => {
+    $(element).css("display", "none");
+    $('.loader-wrap').css("display", "block");
+}
+
+
 const checkProgress = (project=null) => {
     $.ajax({
         type: "POST",
@@ -206,7 +212,7 @@ const checkProgress = (project=null) => {
         data: {project: project},
         success: function(collProgress){
             $('#collection_progress').val(parseInt(collProgress));
-            $('p').html(`${collProgress}%`)
+            $('#collection_progress ~ p').html(`${collProgress}%`)
     }});
 }
 
@@ -217,6 +223,7 @@ const updateCollProgress = () => {
     }
     else {
         $('h3').html('All done!')
-        $('.collection-link').css("display", "block");
+        $('.collection-link p').css("display", "none");
+        $('.collection-link a').css("display", "block");
     }
 }

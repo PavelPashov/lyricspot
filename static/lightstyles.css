@@ -285,11 +285,24 @@
   input {
     text-align: center;
     display: block;
-    text-align: center;
     margin: 0 auto;
     padding: 8px;
     margin-bottom: 16px;
   }
+
+  .loader-wrap {
+    display: none
+  }
+  .loader {
+    width: 32px;
+    height: 32px;
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    background: url('ajax-loader-light.gif')
+                no-repeat center center;
+  }
+  
   
 
   @media screen and (max-width: 600px) {

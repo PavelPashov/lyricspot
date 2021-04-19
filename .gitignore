@@ -1,3 +1,4 @@
 start_flask.sh
 config.py
 flask_session
+__pycache__

@@ -7,8 +7,9 @@
                 {% if message == 'Creating your collection!' %}
                 <progress id="collection_progress" value="1" max="100"></progress>
                 <p>0%</p>
-                <div class="collection-link" style="display:none;">
-                    <a href="{{ coll_url }}" target="_blank"> Visit the collection </a>
+                <div class="collection-link">
+                    <p>Please do not refresh the page!</p>
+                    <a href="{{ coll_url }}" target="_blank" style="display:none;"> Visit the collection </a>
                 </div>
                 {% endif %}
             </div>
