@@ -106,16 +106,18 @@ def find_lyrics_genius(path):
         return None
 
 def find_lyrics_ovh(song, artist):
-    url = 'https://api.lyrics.ovh/v1/' + quote(f'{artist}/{song}')
-    try:
-        response = requests.get(url)
-        if response.json()['lyrics']:
-            return response.json()['lyrics']
-        else:
-            return None
-    except Exception as e:
-        logging.error(e, exc_info=True)
-        return None
+    return None
+    # THIS IS NOT WORKING PROPERLY CURENTLY WILL TEST IN THE FUTURE!!!
+    # url = 'https://api.lyrics.ovh/v1/' + quote(f'{artist}/{song}')
+    # try:
+    #     response = requests.get(url)
+    #     if response.json()['lyrics']:
+    #         return response.json()['lyrics']
+    #     else:
+    #         return None
+    # except Exception as e:
+    #     logging.error(e, exc_info=True)
+    #     return None
 
 
 def get_song_lyrics(country, token):
@@ -129,12 +131,14 @@ def get_song_lyrics(country, token):
     if lyrics:
         return lyrics
     else:
+        print('SEARCHING GENIOUS!!!')
         path = find_song_genius(song['name'], artist)
         lyrics = find_lyrics_genius(path)
         if lyrics:
             print('genius.com', path)
             return lyrics
         else:
+            print('SEARCHING MUSIXMATCH!!!')
             path = get_song_url_musixmatch(song['name'], artist)
             lyrics = find_lyrics_musixmatch(path)
             if lyrics:
