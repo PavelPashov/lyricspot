@@ -88,13 +88,16 @@ def find_lyrics_genius(path):
             URL = "http://genius.com" + path
             response = requests.get(url=URL)
             soup = BeautifulSoup(response.content, "html.parser")
+            # doing this because genius provides 2 different pages randomly
             lyrics1 = soup.find("div", class_="lyrics")
-            lyrics2 = soup.find("div", class_="Lyrics__Container-sc-1ynbvzw-2 jgQsqn")
+            lyrics2 = soup.find_all("div", class_="Lyrics__Container-sc-1ynbvzw-7 dVtOne")
             if lyrics1:
                 lyrics = lyrics1.get_text()
             elif lyrics2:
-                # doing this because genius provides 2 different pages randomly
-                lyrics = re.sub(pattern_letters, r'\1\n\2', lyrics2.get_text())
+                lyrics = ''
+                for l in lyrics2:
+                    lyrics = lyrics + l.get_text()
+                lyrics = re.sub(pattern_letters, r'\1\n\2', lyrics)
                 lyrics = re.sub(pattern_brackets, r'\n\n\1\n', lyrics)
             elif lyrics1 == lyrics2 is None:
                 lyrics = None
