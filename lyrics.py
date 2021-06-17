@@ -84,19 +84,18 @@ def find_lyrics_genius(path):
     if path:
         pattern_letters = re.compile(r'([a-z]|[.?!;")\'}/])([A-Z])')
         pattern_brackets = re.compile(r'(\[\w.+\])')
+        pattern_container = re.compile(r'(Lyrics__Container-sc.*)')
         try:
             URL = "http://genius.com" + path
             response = requests.get(url=URL)
             soup = BeautifulSoup(response.content, "html.parser")
             # doing this because genius provides 2 different pages randomly
             lyrics1 = soup.find("div", class_="lyrics")
-            lyrics2 = soup.find_all("div", class_="Lyrics__Container-sc-1ynbvzw-7 dVtOne")
+            lyrics2 = soup.find_all("div", class_=pattern_container)
             if lyrics1:
                 lyrics = lyrics1.get_text()
             elif lyrics2:
-                lyrics = ''
-                for l in lyrics2:
-                    lyrics = lyrics + l.get_text()
+                lyrics = ''.join([lyric.text for lyric in lyrics2])
                 lyrics = re.sub(pattern_letters, r'\1\n\2', lyrics)
                 lyrics = re.sub(pattern_brackets, r'\n\n\1\n', lyrics)
             elif lyrics1 == lyrics2 is None:
@@ -108,19 +107,18 @@ def find_lyrics_genius(path):
     else:
         return None
 
+
 def find_lyrics_ovh(song, artist):
-    return None
-    # THIS IS NOT WORKING PROPERLY CURENTLY WILL TEST IN THE FUTURE!!!
-    # url = 'https://api.lyrics.ovh/v1/' + quote(f'{artist}/{song}')
-    # try:
-    #     response = requests.get(url)
-    #     if response.json()['lyrics']:
-    #         return response.json()['lyrics']
-    #     else:
-    #         return None
-    # except Exception as e:
-    #     logging.error(e, exc_info=True)
-    #     return None
+    url = 'https://api.lyrics.ovh/v1/' + quote(f'{artist}/{song}')
+    try:
+        response = requests.get(url)
+        if response.json()['lyrics']:
+            return response.json()['lyrics']
+        else:
+            return None
+    except Exception as e:
+        logging.error(e, exc_info=True)
+        return None
 
 
 def get_song_lyrics(country, token):
@@ -130,22 +128,23 @@ def get_song_lyrics(country, token):
     google_href = 'https://www.google.com/search?q=' + quote(f"{song['name']} {artist} lyrics")
     lyrics_not_found = f'Lyrics not found :(\n<a href={google_href} target="_blank">Google it!</a>'
 
-    lyrics = find_lyrics_ovh(song['name'], artist)
+    #THIS IS NOT WORKING PROPERLY CURENTLY WILL TEST IN THE FUTURE!!!
+    # lyrics = find_lyrics_ovh(song['name'], artist)
+    # if lyrics:
+    #     return lyrics
+    # else:
+    print('SEARCHING GENIOUS!!!')
+    path = find_song_genius(song['name'], artist)
+    lyrics = find_lyrics_genius(path)
     if lyrics:
+        print('genius.com', path)
         return lyrics
     else:
-        print('SEARCHING GENIOUS!!!')
-        path = find_song_genius(song['name'], artist)
-        lyrics = find_lyrics_genius(path)
+        print('SEARCHING MUSIXMATCH!!!')
+        path = get_song_url_musixmatch(song['name'], artist)
+        lyrics = find_lyrics_musixmatch(path)
         if lyrics:
-            print('genius.com', path)
+            print('musixmatch.com', path)
             return lyrics
         else:
-            print('SEARCHING MUSIXMATCH!!!')
-            path = get_song_url_musixmatch(song['name'], artist)
-            lyrics = find_lyrics_musixmatch(path)
-            if lyrics:
-                print('musixmatch.com', path)
-                return lyrics
-            else:
-                return lyrics_not_found
+            return lyrics_not_found
