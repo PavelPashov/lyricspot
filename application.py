@@ -12,7 +12,7 @@ from spotify import generate_authorize_url, generate_access_token_url, get_curre
     get_user_info, refresh_token, spotify_player, spotify_pause, spotify_play
 from toptracks import get_csv_path
 from helpers import login_required
-from lyrics import get_song_lyrics
+from lyrics import Lyrics
 from zegami import create_collection, create_yaml_file, get_coll_id, delete_file, check_progress, publish_coll
 
 app = Flask(__name__)
@@ -62,8 +62,9 @@ def home():
 @login_required
 @refresh_token
 def lyrics():
-    lyrics = get_song_lyrics(session['country'], session['token'])
-    return lyrics
+    lyrics = Lyrics()
+    lyrics.get_song_lyrics(session['country'], session['token'])
+    return lyrics.content
 
 
 @app.route("/song")
@@ -81,6 +82,7 @@ def songs():
     except Exception as e:
         logging.error(e, exc_info=True)
         return None
+
 
 @app.route('/player', methods=['POST'])
 @login_required
