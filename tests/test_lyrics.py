@@ -3,6 +3,7 @@ from .setup import token, app
 from src.lyrics import Lyrics
 from src.spotify import Song
 
+import time
 
 song_name = 'sunbather'
 artist_name = 'deafheaven'
@@ -24,6 +25,7 @@ def test_get_song_genius():
     lyrics = Lyrics()
     lyrics.find_lyrics_genius(song_name, artist_name)
     actual_lyrics = lyrics._lyrics.lower()
+    time.sleep(5)
     assert song_lyrics in actual_lyrics
 
 
@@ -37,6 +39,7 @@ def test_find_song_musixmatch():
 def test_get_song_musixmatch():
     lyrics = Lyrics()
     lyrics.find_lyrics_genius(song_name, artist_name)
+    time.sleep(5)
     assert song_lyrics in lyrics._lyrics.lower()
 
 
