@@ -6,9 +6,8 @@ import re
 import requests
 
 from bs4 import BeautifulSoup
+from flask import session
 from urllib.parse import urlparse, urlencode, quote
-
-from spotify import get_current_song
 
 MUSIXMATCH_KEY = os.environ.get("MUSIXMATCH_API_KEY")
 GENIUS_KEY = os.environ.get("GENIUS_API_KEY")
@@ -19,9 +18,10 @@ class Lyrics(object):
 
     def __init__(self):
         """Constructor."""
-        self.content = ''
+        self._lyrics = ''
 
     def find_song_musixmatch(self, song, artists):
+        """Search for the song in the Musixmatch API."""
         try:
             url = 'https://api.musixmatch.com/ws/1.1/track.search?'
             params = {
@@ -41,11 +41,13 @@ class Lyrics(object):
             return None
 
     def find_lyrics_musixmatch(self, song, artists):
+        """Try to find the lyrics on the Musixmatch website."""
         print('SEARCHING MUSIXMATCH!!!')
         if (path := self.find_song_musixmatch(song, artists)):
-            print(path)
             try:
                 url = f"https://www.musixmatch.com{path}"
+                # This is for debugging
+                print(url)
                 headers = {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) \
                     AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'
@@ -57,7 +59,7 @@ class Lyrics(object):
                 for element in elements:
                     lyrics += element.text
                 if lyrics != '':
-                    self.content = lyrics
+                    self._lyrics = lyrics
                 else:
                     # This is for debugging
                     print(soup)
@@ -65,6 +67,7 @@ class Lyrics(object):
                 logging.error(e, exc_info=True)
 
     def find_song_genius(self, song, artist):
+        """Search for the song in the Genius API."""
         try:
             url = 'http://api.genius.com/search?'
             params = {
@@ -84,14 +87,16 @@ class Lyrics(object):
             logging.error(e, exc_info=True)
 
     def find_lyrics_genius(self, song, artist):
+        """Try to find the lyrics on the Genius website."""
         print('SEARCHING GENIOUS!!!')
         if (path := self.find_song_genius(song, artist)):
-            print(path)
             pattern_letters = re.compile(r'([a-z]|[.?!;")\'}/])([A-Z])')
             pattern_brackets = re.compile(r'(\[\w.+\])')
             pattern_container = re.compile(r'(Lyrics__Container-sc.*)')
             try:
                 URL = "http://genius.com" + path
+                # This is for debugging
+                print(URL)
                 response = requests.get(url=URL)
                 soup = BeautifulSoup(response.content, "html.parser")
                 # doing this because genius provides 2 or more different pages randomly
@@ -99,12 +104,12 @@ class Lyrics(object):
                 lyrics2 = soup.find_all("div", class_=pattern_container)
                 if lyrics1:
                     lyrics = lyrics1.get_text()
-                    self.content = lyrics
+                    self._lyrics = lyrics
                 elif lyrics2:
                     lyrics = ''.join([lyric.text for lyric in lyrics2])
                     lyrics = re.sub(pattern_letters, r'\1\n\2', lyrics)
                     lyrics = re.sub(pattern_brackets, r'\n\n\1\n', lyrics)
-                    self.content = lyrics
+                    self._lyrics = lyrics
             except Exception as e:
                 logging.error(e, exc_info=True)
 
@@ -121,15 +126,27 @@ class Lyrics(object):
             logging.error(e, exc_info=True)
             return None
 
-    def get_song_lyrics(self, country, token):
-        song = get_current_song(country, token)
-        artist = song['artists'][0]['name']
-
-        google_href = 'https://www.google.com/search?q=' + quote(f"{song['name']} {artist} lyrics")
+    def get_song_lyrics(self):
+        """Get the lyrics for the song."""
+        google_href = 'https://www.google.com/search?q=' + \
+            quote(f"{self.name} {self.artists[0]['name']} lyrics")
         lyrics_not_found = f'Lyrics not found :(\n<a href={google_href} target="_blank">Google it!</a>'
 
-        self.find_lyrics_genius(song['name'], artist)
-        if self.content == '':
-            self.find_lyrics_musixmatch(song['name'], artist)
-            if self.content == '':
-                self.content = lyrics_not_found
+        self.find_lyrics_genius(self.name, self.artists[0]['name'])
+        if self._lyrics == '':
+            self.find_lyrics_musixmatch(self.name, self.artists[0]['name'])
+            if self._lyrics == '':
+                self._lyrics = lyrics_not_found
+
+        self.cache_lyrics()
+
+    def cache_lyrics(self):
+        """Save the current lyrics in the session."""
+        session['lyrics'] = {'name': self.name, 'artist': self.artists[0]['name'], 'lyrics': self._lyrics}
+
+    def check_for_cached_lyrics(self):
+        """Check if there're save lyrics for the song."""
+        if session['lyrics']['name'] == self.name and session['lyrics']['artist'] == self.artists[0]['name']:
+            self._lyrics = session['lyrics']['lyrics']
+        else:
+            self.get_song_lyrics()
