@@ -8,7 +8,7 @@ from flask_session import Session
 
 from werkzeug.security import check_password_hash
 
-from spotify import (
+from src.spotify import (
     generate_authorize_url,
     generate_access_token_url,
     get_user_info,
@@ -16,15 +16,15 @@ from spotify import (
     spotify_pause,
     Song,
     spotify_play)
-from toptracks import get_csv_path
-from utils import login_required, refresh_token
-from resources import (
+from src.toptracks import get_csv_path
+from src.utils import login_required, refresh_token
+from src.resources import (
     CurrentLyrics,
     PlayingSong,
     RecentSong,
     RecentSongLyrics,
     RecentSongs)
-from zegami import (
+from src.zegami import (
     create_collection,
     create_yaml_file,
     get_coll_id, delete_file,

@@ -3,3 +3,4 @@ config.py
 flask_session
 __pycache__
 .vscode
+.__pytest_cache

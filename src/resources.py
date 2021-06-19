@@ -1,8 +1,8 @@
 """API resouces."""
 from flask import session
 from flask_restful import Resource
-from utils import login_required
-from spotify import CurrentSong, Songs
+from .utils import login_required
+from .spotify import CurrentSong, Songs
 
 
 class PlayingSong(Resource):
@@ -34,7 +34,6 @@ class RecentSong(Resource):
     @login_required
     def get(self, song_id):
         self.get_songs()
-        print(self.recent_songs[int(song_id)])
         return self.recent_songs[int(song_id)].__dict__
 
 

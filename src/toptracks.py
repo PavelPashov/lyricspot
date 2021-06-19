@@ -15,7 +15,6 @@ def get_top(type, limit, token, term):
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {token}',
         }
-        print(token)
         response = requests.get(url=url, headers=headers)
         data = response.json()\
 
@@ -89,7 +88,6 @@ def assign_feauters_to_tracks(features, tracks):
             if song['id'] == feature['id']:
                 song['features'] = feature
     path = convert_data_to_csv(tracks)
-    print(path)
     return tracks
 
 

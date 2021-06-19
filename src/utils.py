@@ -4,7 +4,7 @@ import time
 from functools import wraps
 from flask import redirect, session
 
-from spotify import get_refresh_token
+from .spotify import get_refresh_token
 
 
 def login_required(f):
@@ -23,7 +23,6 @@ def refresh_token(f):
     def decorated_function(*args, **kwargs):
         r_token = session.get('r_token')
         token_time = session.get('token_time')
-        print(session['token'])
         if int(token_time) + 3000 < int(time.time()):
             session['token'] = get_refresh_token(r_token)
             session['token_time'] = int(time.time())

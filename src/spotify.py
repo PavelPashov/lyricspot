@@ -1,6 +1,6 @@
 from flask import request, session
 from urllib.parse import urlencode
-from lyrics import Lyrics
+from .lyrics import Lyrics
 
 import base64
 import json
@@ -10,7 +10,7 @@ import requests
 
 CLIENT_ID = os.environ.get("CLIENT_ID")
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
-DEV = os.environ.get("DEV")
+FLASK_ENV = os.environ.get("FLASK_ENV")
 
 SCOPE = 'user-read-email user-read-recently-played user-top-read \
         user-read-recently-played user-read-playback-state user-read-currently-playing user-read-private \
@@ -27,7 +27,7 @@ encoded = base64.urlsafe_b64encode(data_bytes.encode()).decode()
 
 REDIRECT_URI = 'https://lyric-spot.herokuapp.com/hello'
 
-if DEV:
+if FLASK_ENV == 'development':
     REDIRECT_URI = 'http://127.0.0.1:5000/hello'
 
 
