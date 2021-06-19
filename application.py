@@ -2,20 +2,37 @@ import logging
 import time
 import os
 
-from flask import Flask, flash, redirect, render_template, request, jsonify, session
+from flask import Flask,  redirect, render_template, request,  session
+from flask_restful import Api
 from flask_session import Session
 
 from werkzeug.security import check_password_hash
 
-
-from spotify import generate_authorize_url, generate_access_token_url, get_current_song, \
-    get_user_info, refresh_token, spotify_player, spotify_pause, spotify_play
+from spotify import (
+    generate_authorize_url,
+    generate_access_token_url,
+    get_user_info,
+    spotify_player,
+    spotify_pause,
+    Song,
+    spotify_play)
 from toptracks import get_csv_path
-from helpers import login_required
-from lyrics import get_song_lyrics
-from zegami import create_collection, create_yaml_file, get_coll_id, delete_file, check_progress, publish_coll
+from utils import login_required, refresh_token
+from resources import (
+    CurrentLyrics,
+    PlayingSong,
+    RecentSong,
+    RecentSongLyrics,
+    RecentSongs)
+from zegami import (
+    create_collection,
+    create_yaml_file,
+    get_coll_id, delete_file,
+    check_progress,
+    publish_coll)
 
 app = Flask(__name__)
+api = Api(app)
 
 hash_pw = os.environ.get("PASSWORD")
 
@@ -43,6 +60,7 @@ def hello():
 
     country = get_user_info(token)
     session['country'] = country
+    session['lyrics'] = {'name': '', 'artist': '', 'lyrics': ''}
     session['token'] = token
     session['r_token'] = r_token
     session['token_time'] = int(time.time())
@@ -54,33 +72,15 @@ def hello():
 @login_required
 @refresh_token
 def home():
-
     return render_template('index.html')
 
 
-@app.route("/lyrics")
-@login_required
-@refresh_token
-def lyrics():
-    lyrics = get_song_lyrics(session['country'], session['token'])
-    return lyrics
+api.add_resource(CurrentLyrics, '/api/v0/songs/lyrics')
+api.add_resource(PlayingSong, '/api/v0/songs/current')
+api.add_resource(RecentSong, '/api/v0/songs/recetly_played/<string:song_id>')
+api.add_resource(RecentSongLyrics, '/api/v0/songs/recetly_played/lyrics/<string:song_id>')
+api.add_resource(RecentSongs, '/api/v0/songs/recetly_played/all')
 
-
-@app.route("/song")
-@login_required
-def songs():
-    song = []
-    try:
-        song = get_current_song(session['country'], session['token'])
-        if song is None:
-            return None
-        else:
-            session['progress'] = song['progress']
-            session['uri'] = song['uri']
-        return jsonify(song)
-    except Exception as e:
-        logging.error(e, exc_info=True)
-        return None
 
 @app.route('/player', methods=['POST'])
 @login_required
@@ -96,9 +96,10 @@ def player():
 @refresh_token
 def pause():
     if request.method == "POST":
-        song = get_current_song(session['country'], session['token'])
-        session['progress'] = song['progress']
-        session['uri'] = song['uri']
+        song = Song()
+        song.get_current_song()
+        session['progress'] = song.progress
+        session['uri'] = song.uri
         response = spotify_pause(session['token'])
         return '', response.status_code
 

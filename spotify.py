@@ -1,12 +1,11 @@
-from flask import Flask, request, session
-from urllib.parse import urlparse, urlencode, quote
-from functools import wraps
+from flask import request, session
+from urllib.parse import urlencode
+from lyrics import Lyrics
 
 import base64
 import json
 import logging
 import os
-import time
 import requests
 
 CLIENT_ID = os.environ.get("CLIENT_ID")
@@ -95,70 +94,92 @@ def get_user_info(token):
         return None
 
 
-def get_current_song(country_code, token):
-    try:
-        url = 'https://api.spotify.com/v1/me/player/currently-playing'
+class Song(Lyrics):
+    """Class for Songs."""
 
-        headers = {
-            'market': country_code,
-            'accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {token}',
-        }
+    def parse_current_song_data(self, data):
+        """Get the data from the spotify endpoint, parse and assign attributes."""
+        artists = []
+        for artist in data['item']['artists']:
+            artists.append({'name': artist['name'], 'link': artist['external_urls']['spotify']})
+        self.name = data['item']['name']
+        self.artists = artists
+        self.album = data['item']['album']['name']
+        self.link = data['item']['external_urls']['spotify']
+        self.progress = data['progress_ms']
+        self.duration = data['item']['duration_ms']
+        self.uri = data['item']['uri']
+        self.is_playing = data['is_playing']
+        self.image_link = data['item']['album']['images']
 
-        response = requests.get(url=url, headers=headers)
-        data = response.json()
-        return parse_current_song_data(data)
-    except Exception as e:
-        logging.error(e, exc_info=True)
-        return None
+    def get_current_song(self):
+        """Get the song playing currently."""
+        try:
+            url = 'https://api.spotify.com/v1/me/player/currently-playing'
+            headers = {
+                'market': session['country'],
+                'accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {session["token"]}',
+            }
 
+            response = requests.get(url=url, headers=headers)
+            if response.status_code == 200:
+                self.parse_current_song_data(response.json())
+        except Exception as e:
+            logging.error(e, exc_info=True)
 
-def get_recently_played_songs(limit, token):
-    try:
-        url = f'https://api.spotify.com/v1/me/player/recently-played?limit={limit}'
-
-        headers = {
-            'accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {token}',
-        }
-
-        response = requests.get(url=url, headers=headers)
-        data = response.json()
-        songs = []
-        for item in data['items']:
-            mydict = {}
-            mydict['name'] = item['track']['name']
-            artists = []
-            for artist in item['track']['artists']:
-                artists.append({'name': artist['name'], 'link': artist['external_urls']['spotify']})
-            mydict['artists'] = artists
-            mydict['duration'] = item['track']['duration_ms']
-            mydict['link'] = item['track']['external_urls']['spotify']
-            mydict['progress'] = 100
-            mydict['is_playing'] = False
-            songs.append(mydict)
-        return songs
-    except Exception as e:
-        logging.error(e, exc_info=True)
-        return None
+    def toJSON(self):
+        """Parse the song to JSON."""
+        return json.dumps(self, default=lambda o: o.__dict__,
+                          sort_keys=True, indent=4)
 
 
-def parse_current_song_data(data):
-    song = {}
-    artists = []
-    for artist in data['item']['artists']:
-        artists.append({'name': artist['name'], 'link': artist['external_urls']['spotify']})
-    song['name'] = data['item']['name']
-    song['artists'] = artists
-    song['link'] = data['item']['external_urls']['spotify']
-    song['progress'] = data['progress_ms']
-    song['duration'] = data['item']['duration_ms']
-    song['uri'] = data['item']['uri']
-    song['is_playing'] = data['is_playing']
-    song['image_link'] = data['item']['album']['images']
-    return song
+class CurrentSong(Song):
+    def __init__(self):
+        super().__init__()
+        self.is_playing = False
+        self.get_current_song()
+
+
+class Songs(Song):
+
+    def __init__(self):
+        self.recently_played = []
+
+    def get_recently_played_songs(self, limit):
+        """Get all recentely played songs."""
+        try:
+            url = f'https://api.spotify.com/v1/me/player/recently-played?limit={limit}'
+
+            headers = {
+                'accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {session["token"]}',
+            }
+            response = requests.get(url=url, headers=headers)
+            data = response.json()
+            for item in data['items']:
+                song = Song()
+                song.name = item['track']['name']
+                artists = []
+                for artist in item['track']['artists']:
+                    artists.append({'name': artist['name'], 'link': artist['external_urls']['spotify']})
+                song.artists = artists
+                song.album = item['track']['album']['name']
+                song.duration = item['track']['duration_ms']
+                song.link = item['track']['external_urls']['spotify']
+                song.progress = 100
+                song.is_playing = False
+                self.recently_played.append(song)
+        except Exception as e:
+            logging.error(e, exc_info=True)
+            return None
+
+    def recently_played_toJSON(self):
+        """Parse the song to JSON."""
+        return json.dumps(self.recently_played, default=lambda o: o.__dict__,
+                          sort_keys=True, indent=4)
 
 
 def spotify_player(command, token):
@@ -174,18 +195,6 @@ def spotify_player(command, token):
         return response
     except Exception as e:
         logging.error(e, exc_info=True)
-
-
-def refresh_token(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        r_token = session.get('r_token')
-        token_time = session.get('token_time')
-        if int(token_time) + 3000 > int(time.time()):
-            session['token'] = get_refresh_token(r_token)
-            session['token_time'] = int(time.time())
-        return f(*args, **kwargs)
-    return decorated_function
 
 
 def spotify_pause(token):
