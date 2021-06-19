@@ -23,7 +23,8 @@ def test_find_song_genius():
 def test_get_song_genius():
     lyrics = Lyrics()
     lyrics.find_lyrics_genius(song_name, artist_name)
-    assert song_lyrics in lyrics._lyrics.lower()
+    actual_lyrics = lyrics._lyrics.lower()
+    assert song_lyrics in actual_lyrics
 
 
 def test_find_song_musixmatch():
