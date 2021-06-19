@@ -16,3 +16,5 @@ def set_up_session(client):
         session['token'] = token
         session['country'] = 'BG'
         session['token_time'] = time.time()
+        session['progress'] = 123
+        session['uri'] = 'test'
