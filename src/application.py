@@ -81,9 +81,9 @@ api.add_resource(CurrentLyricsAPI, '/api/v0/songs/lyrics')
 api.add_resource(PlayingSongAPI, '/api/v0/songs/current')
 api.add_resource(RecentSongAPI, '/api/v0/songs/recetly_played/<string:song_id>')
 api.add_resource(RecentSongLyricsAPI, '/api/v0/songs/recetly_played/lyrics/<string:song_id>')
-api.add_resource(RecentSongsAPI, '/api/v0/songs/recetly_played/all')
+api.add_resource(RecentSongsAPI, '/api/v0/songs/recetly_played/')
 api.add_resource(TopSongAPI, '/api/v0/songs/top/<string:song_id>')
-api.add_resource(TopSongsAPI, '/api/v0/songs/top/all')
+api.add_resource(TopSongsAPI, '/api/v0/songs/top/')
 api.add_resource(TopSongLyricsAPI, '/api/v0/songs/top/lyrics/<string:song_id>')
 
 
