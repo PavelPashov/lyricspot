@@ -57,6 +57,6 @@ def test_get_current_song():
         response = client.get('/api/v0/songs/current')
         print(response.data)
         data = json.loads(response.get_data(as_text=True))
-        assert response.status_code is 200
+        assert response.status_code == 200
         assert data['name'] == 'Sunbather'
         assert data['album'] == 'Sunbather'
