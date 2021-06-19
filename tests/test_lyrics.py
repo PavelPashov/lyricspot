@@ -6,7 +6,7 @@ from src.spotify import Song
 
 song_name = 'sunbather'
 artist_name = 'deafheaven'
-song_lyrics = 'held my breath and drove through a maze of wealthy homes'
+song_lyrics = 'always and forever'
 
 
 def test_token():
@@ -49,4 +49,4 @@ def test_get_song_lyrics():
             session['lyrics'] = {'name': '', 'artist': '', 'lyrics': ''}
             with app.test_request_context():
                 song.get_song_lyrics()
-                assert song_lyrics in song._lyrics
+                assert song_lyrics in song._lyrics.lower()
