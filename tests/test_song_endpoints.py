@@ -9,9 +9,9 @@ from .setup import app, set_up_session, token
 def test_get_recent_song():
     with app.test_client() as client:
         set_up_session(client)
-        responce = client.get('/api/v0/songs/recetly_played/1')
-        data = json.loads(responce.get_data(as_text=True))
-        assert responce.status_code == 200
+        response = client.get('/api/v0/songs/recetly_played/1')
+        data = json.loads(response.get_data(as_text=True))
+        assert response.status_code == 200
         assert data['progress'] == 100
         assert data['is_playing'] is False
 
@@ -19,9 +19,9 @@ def test_get_recent_song():
 def test_get_recent_songs():
     with app.test_client() as client:
         set_up_session(client)
-        responce = client.get('/api/v0/songs/recetly_played/all')
-        data = json.loads(responce.get_data(as_text=True))
-        assert responce.status_code == 200
+        response = client.get('/api/v0/songs/recetly_played/all')
+        data = json.loads(response.get_data(as_text=True))
+        assert response.status_code == 200
         assert data[0]['progress'] == 100
         assert len(data) == 50
 
@@ -54,9 +54,9 @@ def test_get_current_song():
         set_up_session(client)
         # Fails without the wait
         time.sleep(1)
-        responce = client.get('/api/v0/songs/current')
-        print(responce.data)
-        data = json.loads(responce.get_data(as_text=True))
-        assert responce.status_code == 200
+        response = client.get('/api/v0/songs/current')
+        print(response.data)
+        data = json.loads(response.get_data(as_text=True))
+        assert response.status_code is 200
         assert data['name'] == 'Sunbather'
         assert data['album'] == 'Sunbather'
