@@ -1,3 +1,8 @@
+"""Methods used for creating collections of top tracks."""
+
+# This is currently overlapping a bit with the TopSongs class
+# Will have to refactor it later as I don't want to lose the
+# Collection creation functionallity
 
 import logging
 import requests
@@ -88,6 +93,7 @@ def assign_feauters_to_tracks(features, tracks):
             if song['id'] == feature['id']:
                 song['features'] = feature
     path = convert_data_to_csv(tracks)
+    print(path)
     return tracks
 
 
