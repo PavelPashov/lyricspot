@@ -3,7 +3,7 @@ import pytest
 
 from .setup import token, app
 from src.lyrics import Lyrics
-from src.spotify import Song
+from src.songs import Song
 
 
 song_name = 'sunbather'

@@ -14,22 +14,30 @@ from src.spotify import (
     get_user_info,
     spotify_player,
     spotify_pause,
-    Song,
-    spotify_play)
+    spotify_play
+)
+
+from src.songs import Song
 from src.toptracks import get_csv_path
 from src.utils import login_required, refresh_token
 from src.resources import (
-    CurrentLyrics,
-    PlayingSong,
-    RecentSong,
-    RecentSongLyrics,
-    RecentSongs)
+    CurrentLyricsAPI,
+    PlayingSongAPI,
+    RecentSongAPI,
+    RecentSongLyricsAPI,
+    RecentSongsAPI,
+    TopSongAPI,
+    TopSongsAPI,
+    TopSongLyricsAPI
+)
+
 from src.zegami import (
     create_collection,
     create_yaml_file,
     get_coll_id, delete_file,
     check_progress,
-    publish_coll)
+    publish_coll
+)
 
 app = Flask(__name__)
 api = Api(app)
@@ -42,13 +50,14 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
+@refresh_token
 @app.route("/")
 def index():
     url = generate_authorize_url()
     if not session.get('token'):
         return render_template('login.html', url=url)
     else:
-        return redirect('/home')
+        return render_template('index.html')
 
 
 @app.route("/hello")
@@ -65,21 +74,17 @@ def hello():
     session['r_token'] = r_token
     session['token_time'] = int(time.time())
 
-    return redirect('/home')
+    return redirect('/')
 
 
-@app.route("/home")
-@login_required
-@refresh_token
-def home():
-    return render_template('index.html')
-
-
-api.add_resource(CurrentLyrics, '/api/v0/songs/lyrics')
-api.add_resource(PlayingSong, '/api/v0/songs/current')
-api.add_resource(RecentSong, '/api/v0/songs/recetly_played/<string:song_id>')
-api.add_resource(RecentSongLyrics, '/api/v0/songs/recetly_played/lyrics/<string:song_id>')
-api.add_resource(RecentSongs, '/api/v0/songs/recetly_played/all')
+api.add_resource(CurrentLyricsAPI, '/api/v0/songs/lyrics')
+api.add_resource(PlayingSongAPI, '/api/v0/songs/current')
+api.add_resource(RecentSongAPI, '/api/v0/songs/recetly_played/<string:song_id>')
+api.add_resource(RecentSongLyricsAPI, '/api/v0/songs/recetly_played/lyrics/<string:song_id>')
+api.add_resource(RecentSongsAPI, '/api/v0/songs/recetly_played/all')
+api.add_resource(TopSongAPI, '/api/v0/songs/top/<string:song_id>')
+api.add_resource(TopSongsAPI, '/api/v0/songs/top/all')
+api.add_resource(TopSongLyricsAPI, '/api/v0/songs/top/lyrics/<string:song_id>')
 
 
 @app.route('/player', methods=['POST'])

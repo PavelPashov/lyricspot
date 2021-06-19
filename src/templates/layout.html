@@ -1,72 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="../static/scripts.js"></script>
-    {% if session['mode'] %}
-        <link href='{{ session['mode']['link'] }}' rel="stylesheet">
-    {% else %}
-        <link href="../static/mystyles.css" rel="stylesheet">
-    {% endif %}
-    <link rel="shortcut icon" type="image/jpg" href="../static/favicon.png"/>
-    <title>Lyricspot
-    </title>
-  </head>
-  <body>
-    <nav class="navbar">
-      <div class="nav-container">
-        <div class="nav-container-item">
-            <a class="navbar-brand" href="home">LyricSpot
-            </a>
-        </div>
-        <div class="nav-container-item spacer">
-        </div>
-        <div class="nav-container-item">
-          <ul class="navbar-nav">
-            {% if session['country'] %}
-            <li class="nav-item">
-              <a class="nav-link" href="home">Top Tracks
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="home">Top Artists
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="home">Recently Played
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="nav-container-item nav-item logout">
-            <a class="nav-link" href="/logout">Log out
-            </a>
-        </div>
-        {% endif %}
-        <div class="nav-container-item nav-item apperance">
-            <a href="#" id="mode">
-                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi sun-moon-icon" viewBox="0 0 16 16">
-            </svg>
-            </a>
-        </div>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="../static/scripts.js"></script>
+  {% if session['mode'] %}
+  <link href='{{ session[' mode']['link'] }}' rel="stylesheet">
+  {% else %}
+  <link href="../static/mystyles.css" rel="stylesheet">
+  {% endif %}
+  <link rel="shortcut icon" type="image/jpg" href="../static/favicon.png" />
+  <title>Lyricspot
+  </title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-container-item">
+        <a class="navbar-brand" href="/">LyricSpot
+        </a>
       </div>
-    </nav>
-    {% block main %}{% endblock %}  
-    <footer>
-        {% if session['country'] %}
-        <div class="box footer-text">
-            All data provided for free by <a href="https://developer.spotify.com" target="_blank">Spotify</a>, <a href="https://developer.musixmatch.com/" target="_blank">Musixmatch</a>, 
-            <a href="https://lyricsovh.docs.apiary.io/" target="_blank">Lyricsovh</a> & <a href="https://docs.genius.com/" target="_blank">Genius</a>.
-        </div>
-    {% endif %}
-    </footer>
-    <script>
-      {% if session['mode'] %}
-      $('body').ready(changeMode("{{ session['mode']['name'] }}"));
-      {% else %}
-      $('body').ready(changeMode());
+      <div class="nav-container-item spacer">
+      </div>
+      <div class="nav-container-item">
+        <ul class="navbar-nav">
+          {% if session['country'] %}
+          <li class="nav-item">
+            <a class="nav-link" href="/">Top Tracks
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/">Top Artists
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/api/v0/songs/recetly_played/all">Recently Played
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="nav-container-item nav-item logout">
+        <a class="nav-link" href="/logout">Log out
+        </a>
+      </div>
       {% endif %}
-    </script>
-  </body>
+      <div class="nav-container-item nav-item apperance">
+        <a href="#" id="mode">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi sun-moon-icon"
+            viewBox="0 0 16 16">
+          </svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+  {% block main %}{% endblock %}
+  <footer>
+    {% if session['country'] %}
+    <div class="box footer-text">
+      All data provided for free by <a href="https://developer.spotify.com" target="_blank">Spotify</a>, <a
+        href="https://developer.musixmatch.com/" target="_blank">Musixmatch</a>,
+      <a href="https://lyricsovh.docs.apiary.io/" target="_blank">Lyricsovh</a> & <a href="https://docs.genius.com/"
+        target="_blank">Genius</a>.
+    </div>
+    {% endif %}
+  </footer>
+  <script>
+    {% if session['mode'] %}
+    $('body').ready(changeMode("{{ session['mode']['name'] }}"));
+    {% else %}
+    $('body').ready(changeMode());
+    {% endif %}
+  </script>
+</body>
+
 </html>

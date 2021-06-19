@@ -5,6 +5,7 @@ const checkSong = () => {
             if (xhr.status === 204) {
                 noAlbumCover();
                 noSongDetails();
+                playPause(false)
             }
             else {
                 $('#song').val(song.progress / song.duration * 100);
