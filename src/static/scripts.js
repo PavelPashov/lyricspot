@@ -241,3 +241,12 @@ const updateCollProgress = () => {
         $('.collection-link a').css("display", "block");
     }
 }
+
+const showHideMenu = () => {
+    const menu = $('#mobileLinks')
+    if (menu.css('display') === 'flex') {
+        menu.css('display', 'none');
+    } else {
+        menu.css('display', 'flex');
+    }
+}

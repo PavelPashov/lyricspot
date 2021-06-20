@@ -72,7 +72,6 @@ class RecentSongs(Songs):
         """Get all recentely played songs."""
         try:
             url = f'https://api.spotify.com/v1/me/player/recently-played?limit={limit}'
-            print(session['token'])
             headers = {
                 'accept': 'application/json',
                 'Content-Type': 'application/json',
