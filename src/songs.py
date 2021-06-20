@@ -72,7 +72,7 @@ class RecentSongs(Songs):
         """Get all recentely played songs."""
         try:
             url = f'https://api.spotify.com/v1/me/player/recently-played?limit={limit}'
-
+            print(session['token'])
             headers = {
                 'accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -89,6 +89,7 @@ class RecentSongs(Songs):
                 song.artists = artists
                 song.album = item['track']['album']['name']
                 song.duration = item['track']['duration_ms']
+                song.image_link = item['track']['album']['images'][0]['url']
                 song.link = item['track']['external_urls']['spotify']
                 song.progress = 100
                 song.is_playing = False
@@ -126,10 +127,11 @@ class TopSongs(Songs):
             song.date = item['album']['release_date']
             song.artists = []
             for artist in item['artists']:
-                song.artists.append({'name': artist['name']})
+                song.artists.append({'name': artist['name'], 'link': artist['external_urls']['spotify']})
             song.duration = item['duration_ms']
             song.song_id = item['id']
             song.name = item['name']
+            song.link = item['external_urls']['spotify']
             song.popularity = item['popularity']
             self.songs.append(song)
 

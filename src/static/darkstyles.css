@@ -1,351 +1,397 @@
 :root {
-    /* --standard: rgb(13, 0, 24); */
-    --standard: #0e1625;
-    --highlight: #e9e4b6;
-    --main-green: #1DB954;
-    --main-grey: #DCDCDC;
-  }
-  
+  /* --standard: rgb(13, 0, 24); */
+  --standard: #0e1625;
+  --highlight: #e9e4b6;
+  --main-green: #1DB954;
+  --main-grey: #DCDCDC;
+}
 
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: var(--standard);
+}
+
+.navbar {
+  background: var(--main-green);
+  width: auto;
+  height: 24px;
+  padding: 16px 16px;
+  overflow: hidden;
+}
+
+.nav-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  float: left;
+}
+
+.nav-container-item {
+  display: inline-block;
+  vertical-align: middle;
+  height: auto;
+}
+
+.navbar-nav {
+  list-style: none;
+  display: inline-block;
+  text-align: right;
+  vertical-align: middle;
+  padding: 4px;
+  margin: 0 0;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: none;
+  color: var(--standard);
+  padding: 4px;
+}
+
+.navbar-brand:hover {
+  color: var(--highlight);
+}
+
+.nav-item {
+  padding-right: 4px;
+  display: inline-block;
+}
+
+.nav-item.last {
+  padding-left: 32px;
+}
+
+.nav-item a {
+  text-decoration: none;
+  font-size: 17px;
+  color: var(--standard);
+}
+
+.nav-item a:hover {
+  color: var(--highlight);
+}
+
+.nav-item.active a {
+  color: var(--highlight);
+}
+
+.nav-item.active a:hover {
+  color: var(--standard);
+}
+
+div.apperance {
+  float: right;
+  vertical-align: middle;
+  padding-top: 3px;
+  margin-right: 1%;
+}
+
+.spacer {
+  margin: 0 1%;
+}
+
+.box {
+  background: var(--standard);
+  color: var(--highlight);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 16px;
+  width: 60%;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.lyrics, .box-lyrics {
+  background: var(--standard);
+  color: var(--highlight);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 16px;
+  width: 75%;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+p {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+button {
+  background: var(--main-green);
+  color: var(--standard);
+  padding: 8px 16px;
+  margin: 8px 0;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1.5px solid #0e4f1f;
+  outline: none;
+}
+
+button:hover, button:visited {
+  background: var(--standard);
+  color: var(--main-green);
+  border: 1.5px solid #0e4f1f;
+  box-shadow: 2px 2px var(--main-green);
+  transition: all .1s ease;
+  outline: none;
+}
+
+button:focus {
+  background: var(--standard);
+  color: var(--main-green);
+  border: 1.5px solid #0e4f1f;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+button:active {
+  background: var(--standard);
+  color: var(--main-green);
+  box-shadow: none;
+  transition: all 0.3s ease;
+  transform: translateY(2px);
+  outline: none;
+}
+
+.song-name a, .song-artist span a, .song-artist a {
+  color: var(--highlight);
+}
+
+.song-name a:hover, .song-artist span a:hover, .song-artist a:hover {
+  color: var(--main-green);
+}
+
+pre {
+  color: var(--highlight);
+  font-weight: 300;
+  font-size: 16px;
+  width: auto;
+  margin-bottom: 100px;
+  text-shadow: 0 0 1px var(--main-grey);
+  text-align: center;
+  white-space: pre-wrap;
+  /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
+}
+
+pre a, .collection-link a {
+  text-decoration: underline;
+  padding: 8px;
+  color: var(--highlight);
+}
+
+pre a:hover, .collection-link a:hover {
+  color: var(--main-green);
+}
+
+progress {
+  background: var(--main-green);
+  color: var(--highlight);
+  border-radius: 2px;
+  border: 1.5px solid var(--main-green);
+  margin-top: 8px;
+}
+
+label a:visited {
+  text-decoration: none;
+  color: var(--highlight);
+}
+
+label[for="song"] {
+  display: block;
+  padding: 2px;
+  margin: 2px;
+  font-weight: bold;
+}
+
+label a, a {
+  text-decoration: none;
+}
+
+img {
+  width: 160px;
+  height: 160px;
+  border-radius: 4px;
+  margin: 8px 8px;
+  border: 2px solid var(--highlight);
+}
+
+img:hover {
+  border: 2px solid var(--main-green);
+}
+
+.bi {
+  fill: var(--standard);
+  display: block;
+  margin: auto;
+}
+
+#next, #previous, #play, #pause {
+  width: 32;
+  height: 32;
+  padding: 1px 5px;
+}
+
+#next:hover>.bi {
+  fill: var(--main-green);
+}
+
+#previous:hover>.bi {
+  fill: var(--main-green);
+}
+
+#play:hover>.bi {
+  fill: var(--main-green);
+}
+
+#next:focus>.bi {
+  fill: var(--main-green);
+}
+
+#previous:focus>.bi {
+  fill: var(--main-green);
+}
+
+#play:focus>.bi {
+  fill: var(--main-green);
+}
+
+.sun-moon-icon:hover {
+  fill: var(--highlight);
+}
+
+footer {
+  margin-top: 150px;
+  margin-bottom: 0;
+  text-decoration: none;
+  font-size: x-small;
+  padding: 0;
+}
+
+.footer-text a, .footer-text a:visited {
+  text-decoration: none;
+  color: var(--highlight);
+}
+
+.footer-text a:hover {
+  color: var(--main-green);
+}
+
+.collection, .collection-link {
+  text-align: center;
+  display: block;
+  margin-top: 64px;
+  margin-bottom: 64px;
+}
+
+.collection-link {
+  margin-top: 32px;
+}
+
+input {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+  padding: 8px;
+  margin-bottom: 16px;
+}
+
+.loader-wrap {
+  display: none
+}
+
+.loader {
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  text-align: center;
+  display: block;
+  background: url('ajax-loader-dark.gif') no-repeat center center;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: flex-start; */
+  margin: 2%;
+  padding: 20;
+  color: var(--highlight);
+  width: 25%;
+  height: 5%;
+}
+
+.card-name, .card-artist, .card-img, .card-position {
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 600px) {
   body {
-    margin: 0;
-    font-family: sans-serif;
-    background: var(--standard);
+    margin-left: 0;
   }
-  
+  .navbar div:not(:first-child, :last-child, :nth-child(4)) {
+    display: none;
+  }
   .navbar {
-    background: var(--main-green);
-    width: auto;
-    height: 24px;
-    padding: 16px 16px;
-    overflow: hidden;
+    width: 92%;
   }
-  
-  .nav-container {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
+  .navbar div {
     float: left;
+    display: block;
   }
-
-  .nav-container-item {
-    display: inline-block;
-    vertical-align: middle;
-    height: auto;
-  }
-  
-  .navbar-nav {
-    list-style: none;
-    display: inline-block;
-    text-align: right;
-    vertical-align: middle;
-    padding: 4px;
-    margin: 0 0;
-  }
-  
-  .navbar-brand {
-    font-weight: bold;
-    font-size: 20px;
-    text-decoration: none;
-    color: var(--standard);
-    padding: 4px;
-  }
-  
-  .navbar-brand:hover {
-    color: var(--highlight);
-  }
-  
-  .nav-item {
-    padding-right: 4px;
-    display: inline-block;
-  }
-
-  .nav-item.last {
-    padding-left: 32px;
-  }
-  
-  .nav-item a {
-    text-decoration: none;
-    font-size: 17px;
-    color: var(--standard);
-  }
-  
-  .nav-item a:hover {
-    color: var(--highlight);
-  }
-  
-  .nav-item.active a {
-    color: var(--highlight);
-  }
-  
-  .nav-item.active a:hover {
-    color: var(--standard);
-  }
-
-  div.apperance {
+  div.apperance, div.logout {
     float: right;
     vertical-align: middle;
     padding-top: 3px;
+    padding-left: 16px;
     margin-right: 1%;
   }
-  
-  .spacer {
-        margin: 0 1%;
-  }
-  
-  .box {
-    background: var(--standard);
-    color: var(--highlight);
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 16px;
-    width: 60%;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-
-  .lyrics, .box-lyrics {
-    background: var(--standard);
-    color: var(--highlight);
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 16px;
-    width: 75%;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-  
-  p {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 16px;
-    margin-bottom: 16px;
-  }
-  
-  button {
-    background: var(--main-green);
+  .logout a:visited, .logout a {
+    text-decoration: none;
     color: var(--standard);
-    padding: 8px 16px;
-    margin: 8px 0;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    border: 1.5px solid #0e4f1f;
-    outline: none;
   }
-  
-  button:hover, button:visited {
-    background: var(--standard);
-    color: var(--main-green);
-    border: 1.5px solid #0e4f1f;
-    box-shadow: 2px 2px var(--main-green);
-    transition: all .1s ease;
-    outline: none;
-  }
-
-  button:focus {
-    background: var(--standard);
-    color: var(--main-green);
-    border: 1.5px solid #0e4f1f;
-    transition: all 0.3s ease;
-    outline: none;
-  }
-
-  button:active {
-    background: var(--standard);
-    color: var(--main-green);
-    box-shadow: none;
-    transition: all 0.3s ease;
-    transform: translateY(2px);
-    outline: none;
-  }
-  
-  .song-name a, .song-artist span a {
-    color: var(--highlight);
-  }
-
-  .song-name a:hover, .song-artist span a:hover {
-    color: var(--main-green);
-  }
-
   pre {
-    color: var(--highlight);
-    font-weight: 300;
-    font-size: 16px;
-    width: auto;
-    margin-bottom: 100px;
-    text-shadow: 0 0 1px var(--main-grey);
-    text-align: center;
-    white-space: pre-wrap;       /* Since CSS 2.1 */
-    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-    white-space: -pre-wrap;      /* Opera 4-6 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    white-space: pre-wrap;
+    /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */
   }
-
-  pre a, .collection-link a {
-    text-decoration: underline;
-    padding: 8px;
-    color: var(--highlight);
+  button {
+    border: .5px solid #0e4f1f;
+    box-shadow: 2px 2px var(--main-green);
   }
-
-  pre a:hover, .collection-link a:hover {
-    color: var(--main-green);
+  .card {
+    width: 100%;
   }
-
-  progress {
-    background: var(--main-green);
-    color: var(--highlight);
-    border-radius: 2px;
-    border: 1.5px solid var(--main-green);
-    margin-top: 8px;
-  }
-
-  label a:visited {
-    text-decoration: none;
-    color: var(--highlight);
-  }
-
-  label[for="song"]{
-    display: block;
-    padding: 2px;
-    margin: 2px;
-    font-weight: bold;
-  }
-
-  label a {
-    text-decoration: none;
-  }  
-
-  img {
-    width: 160px;
-    height: 160px;
-    border-radius: 4px;
-    margin: 8px 8px;
-    border: 2px solid var(--highlight);
-  }
- 
-  img:hover{
-      border: 2px solid var(--main-green);
-  }
-
-  .bi {
-    fill: var(--standard);
-    display: block;
-    margin: auto;
-  }   
-
-  #next, #previous, #play, #pause {
-    width: 32;
-    height: 32;
-    padding: 1px 5px;
 }
-
-  #next:hover > .bi { fill: var(--main-green); }
-  #previous:hover > .bi { fill: var(--main-green); }
-  #play:hover > .bi { fill: var(--main-green); }
-  #next:focus > .bi { fill: var(--main-green); }
-  #previous:focus > .bi { fill: var(--main-green); }
-  #play:focus > .bi { fill: var(--main-green); }
-
-  .sun-moon-icon:hover {
-    fill: var(--highlight);
-  }
-
-  footer {
-    margin-top: 150px;
-    margin-bottom: 0;
-    text-decoration: none;
-    font-size: x-small;
-    padding: 0;
-  }
-
-  .footer-text a, .footer-text a:visited {
-    text-decoration: none;
-    color: var(--highlight);
-  }
-
-  .footer-text a:hover {
-    color: var(--main-green);
-  }
-
-  .collection, .collection-link {
-    text-align: center;
-    display: block;
-    margin-top: 64px;
-    margin-bottom: 64px;
-  }
-
-  .collection-link {
-    margin-top: 32px;
-  }
-
-  input {
-    display: block;
-    text-align: center;
-    margin: 0 auto;
-    padding: 8px;
-    margin-bottom: 16px;
-  }
-
-  .loader-wrap {
-    display: none
-  }
-  .loader {
-    width: 32px;
-    height: 32px;
-    margin: 0 auto;
-    text-align: center;
-    display: block;
-    background: url('ajax-loader-dark.gif')
-                no-repeat center center;
-  }
-  
-
-  @media screen and (max-width: 600px) {
-    body {
-        margin-left: 0;
-    }
-
-    .navbar div:not(:first-child, :last-child, :nth-child(4)){
-      display: none;
-    }
-
-    .navbar {
-        width: 92%;
-    }
-
-    .navbar div {
-      float: left;
-      display: block;
-    }
-
-    div.apperance, div.logout {
-        float: right;
-        vertical-align: middle;
-        padding-top: 3px;
-        padding-left: 16px;
-        margin-right: 1%;
-      }
-
-    .logout a:visited, .logout a  {
-        text-decoration: none;
-        color: var(--standard);
-    }
-
-    pre {
-        white-space: pre-wrap;       /* Since CSS 2.1 */
-        white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-        white-space: -pre-wrap;      /* Opera 4-6 */
-        white-space: -o-pre-wrap;    /* Opera 7 */
-        word-wrap: break-word;       /* Internet Explorer 5.5+ */
-    }
-    button{
-        border: .5px solid #0e4f1f;
-        box-shadow: 2px 2px var(--main-green);
-    }
-  }

@@ -61,8 +61,8 @@ def test_get_recent_song():
 def test_get_recent_songs():
     """Test for all recent songs."""
     data = _check_song_endpoint('recetly_played/')
-    assert data[0]['progress'] == 100
-    assert len(data) == 50
+    assert data['songs'][0]['progress'] == 100
+    assert len(data['songs']) == 50
 
 
 def test_get_top_song():
@@ -75,8 +75,8 @@ def test_get_top_song():
 def test_get_top_songs():
     """Test for all top songs."""
     data = _check_song_endpoint('top/')
-    assert 'name' in data[0]
-    assert len(data) == 50
+    assert 'name' in data['songs'][0]
+    assert len(data['songs']) == 50
 
 
 def test_get_current_song():
