@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block main %}
+<div class="box">
+    <h1 class='page-title'>{{title}}</h1>
+</div>
+<div class="box card-container">
+    {% for song in songs %}
+    <div class="card">
+        <div class="card-position">
+            {{loop.index }}
+        </div>
+        <div class="card-img">
+            <img alt="album cover" src={{song.image_link}}>
+        </div>
+        <div class="card-name song-name">
+            <a href={{song.link}} target="_blank">{{song.name}}
+            </a>
+        </div>
+        <div class="card-artist song-artist">
+            <a href={{song.artists[0].link}} target="_blank">{{song.artists[0].name}}
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -51,7 +51,8 @@ class RecentSongsAPI(RecentSongAPI):
     @login_required
     def get(self):
         self.tracks.get_songs()
-        return [song.__dict__ for song in self.tracks.songs]
+        data = {'songs': [song.__dict__ for song in self.tracks.songs]}
+        return data
 
 
 class TopSongAPI(RecentSongAPI):

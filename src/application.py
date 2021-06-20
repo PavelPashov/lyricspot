@@ -2,7 +2,7 @@ import logging
 import time
 import os
 
-from flask import Flask,  redirect, render_template, request,  session
+from flask import Flask, redirect, render_template, request,  session
 from flask_restful import Api
 from flask_session import Session
 
@@ -49,6 +49,16 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+# Endpoints for fetching data
+api.add_resource(CurrentLyricsAPI, '/api/v0/songs/lyrics')
+api.add_resource(PlayingSongAPI, '/api/v0/songs/current')
+api.add_resource(RecentSongAPI, '/api/v0/songs/recetly_played/<string:song_id>')
+api.add_resource(RecentSongLyricsAPI, '/api/v0/songs/recetly_played/lyrics/<string:song_id>')
+api.add_resource(RecentSongsAPI, '/api/v0/songs/recetly_played/')
+api.add_resource(TopSongAPI, '/api/v0/songs/top/<string:song_id>')
+api.add_resource(TopSongsAPI, '/api/v0/songs/top/')
+api.add_resource(TopSongLyricsAPI, '/api/v0/songs/top/lyrics/<string:song_id>')
+
 
 @refresh_token
 @app.route("/")
@@ -77,14 +87,16 @@ def hello():
     return redirect('/')
 
 
-api.add_resource(CurrentLyricsAPI, '/api/v0/songs/lyrics')
-api.add_resource(PlayingSongAPI, '/api/v0/songs/current')
-api.add_resource(RecentSongAPI, '/api/v0/songs/recetly_played/<string:song_id>')
-api.add_resource(RecentSongLyricsAPI, '/api/v0/songs/recetly_played/lyrics/<string:song_id>')
-api.add_resource(RecentSongsAPI, '/api/v0/songs/recetly_played/')
-api.add_resource(TopSongAPI, '/api/v0/songs/top/<string:song_id>')
-api.add_resource(TopSongsAPI, '/api/v0/songs/top/')
-api.add_resource(TopSongLyricsAPI, '/api/v0/songs/top/lyrics/<string:song_id>')
+@app.route("/top")
+def top_songs():
+    songs = TopSongsAPI().get()['songs']
+    return render_template('songs.html', songs=songs, title='Your 50 Top Played Tracks')
+
+
+@app.route("/recent")
+def recent_songs():
+    songs = RecentSongsAPI().get()['songs']
+    return render_template('songs.html', songs=songs, title='Your 50 Recently Played Tracks')
 
 
 @app.route('/player', methods=['POST'])
