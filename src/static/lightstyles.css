@@ -12,6 +12,7 @@ body {
 }
 
 .navbar {
+  display: flex;
   background: var(--main-green);
   width: auto;
   height: 24px;
@@ -20,63 +21,64 @@ body {
 }
 
 .nav-container {
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  float: left;
+  width: 50%;
+}
+
+.nav-container.left {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.nav-container.right {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .nav-container-item {
-  display: inline-block;
-  vertical-align: middle;
-  height: auto;
+  display: flex;
+  margin: auto 0;
+  vertical-align: bottom;
+  padding-right: 8px;
 }
 
-.navbar-nav {
-  list-style: none;
-  display: inline-block;
-  text-align: right;
-  vertical-align: middle;
-  padding: 4px;
-  margin: 0 0;
+.nav-container-item.logout {
+  padding-right: 16px;
 }
 
-.navbar-brand {
+.repsonsive-icon {
+  display: none;
+}
+
+.nav-container-item a {
+  text-decoration: none;
+  font-size: 17px;
+  color: var(--standard);
+}
+
+.nav-link-brand {
   font-weight: bold;
-  font-size: 20px;
+  vertical-align: middle;
   text-decoration: none;
   color: var(--standard);
-  padding: 4px;
+}
+
+.nav-container-item.brand a {
+  font-size: 20px;
+  padding-left: 16px;
 }
 
 .navbar-brand:hover {
   color: var(--highlight);
 }
 
-.nav-item {
-  padding-right: 4px;
-  display: inline-block;
+.nav-container-item a:hover {
+  color: var(--highlight);
 }
 
-.nav-item.last {
-  padding-left: 32px;
-}
-
-.nav-item a {
+.mobile-nav {
+  display: none;
   text-decoration: none;
   font-size: 17px;
-  color: var(--standard);
-}
-
-.nav-item a:hover {
-  color: var(--highlight);
-}
-
-.nav-item.active a {
-  color: var(--highlight);
-}
-
-.nav-item.active a:hover {
   color: var(--standard);
 }
 
@@ -162,11 +164,11 @@ button:active {
   outline: none;
 }
 
-.song-name a, .song-artist span a {
+.song-name a, .song-artist span a, .song-artist a {
   color: var(--highlight);
 }
 
-.song-name a:hover, .song-artist span a:hover {
+.song-name a:hover, .song-artist span a:hover, .song-artist a:hover {
   color: var(--main-green);
 }
 
@@ -220,7 +222,7 @@ label[for="song"] {
   font-weight: bold;
 }
 
-label a {
+label a, a {
   text-decoration: none;
 }
 
@@ -353,26 +355,39 @@ input {
   body {
     margin-left: 0;
   }
-  .navbar div:not(:first-child, :last-child, :nth-child(4)) {
+  .nav-container-item {
     display: none;
   }
-  .navbar {
-    width: 92%;
-  }
-  .navbar div {
-    float: left;
+  .brand, .mode {
     display: block;
+    padding-right: 16px;
   }
-  div.apperance, div.logout {
-    float: right;
-    vertical-align: middle;
-    padding-top: 3px;
-    padding-left: 16px;
-    margin-right: 1%;
+  .nav-container-item.brand a {
+    padding-left: 0;
   }
-  .logout a:visited, .logout a {
-    text-decoration: none;
+  .repsonsive-icon {
+    display: block;
+    margin: auto 0;
+    background: var(--main-green);
+  }
+  a.icon {
     color: var(--standard);
+  }
+  .mobile-nav {
+    display: none;
+    flex-direction: column;
+    background-color: var(--standard);
+    border: var(--highlight) 1.5px solid;
+  }
+  .mobile-nav a {
+    background-color: var(--standard);
+    color: var(--highlight);
+    text-align: right;
+    padding: 14px 16px;
+  }
+  .mobile-nav a:hover {
+    background-color: var(--main-green);
+    color: var(--highlight)
   }
   pre {
     white-space: pre-wrap;
@@ -391,11 +406,6 @@ input {
     box-shadow: 2px 2px var(--main-green);
   }
   .card {
-    word-wrap: break-word;
-    /* Internet Explorer 5.5+ */
-  }
-  button {
-    border: .5px solid #0e4f1f;
-    box-shadow: 2px 2px var(--main-green);
+    width: 100%;
   }
 }
