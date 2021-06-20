@@ -36,4 +36,4 @@ soupsieve==2.2.1
 tqdm==4.43.0
 urllib3==1.26.4
 Werkzeug==1.0.1
-git+https://github.com/EiTamOnya/zegami-cli.git
+git+https://github.com/zegami/zegami-cli.git
