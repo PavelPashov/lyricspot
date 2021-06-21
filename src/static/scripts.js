@@ -14,7 +14,7 @@ const checkSong = () => {
                     + '/' + Math.floor(song.duration / 60000).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
                     + ':' + Math.floor((song.duration / 1000) % 60).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }));
                 if (song.progress < 5000 && currentSong != song.name) {
-                    $('#lyrics').html('Fetching lyrics...')
+                    $('#lyrics').html('<div class="loader"></div>')
                     getLyics();
                 }
                 playPause(song.is_playing)
