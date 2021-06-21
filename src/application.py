@@ -59,7 +59,6 @@ api.add_resource(TopSongAPI, '/api/v0/songs/top/<string:song_id>')
 api.add_resource(TopSongsAPI, '/api/v0/songs/top/')
 api.add_resource(TopSongLyricsAPI, '/api/v0/songs/top/lyrics/<string:song_id>')
 
-
 @refresh_token
 @app.route("/")
 def index():
@@ -86,14 +85,17 @@ def hello():
 
     return redirect('/')
 
-
 @app.route("/top")
+@login_required
+@refresh_token
 def top_songs():
     songs = TopSongsAPI().get()['songs']
     return render_template('songs.html', songs=songs, title='Your 50 Top Played Tracks')
 
 
 @app.route("/recent")
+@login_required
+@refresh_token
 def recent_songs():
     songs = RecentSongsAPI().get()['songs']
     return render_template('songs.html', songs=songs, title='Your 50 Recently Played Tracks')
