@@ -26,7 +26,7 @@ data_bytes = f'{CLIENT_ID}:{CLIENT_SECRET}'
 
 encoded = base64.urlsafe_b64encode(data_bytes.encode()).decode()
 
-REDIRECT_URI = 'https://lyric-spot.herokuapp.com/hello'
+REDIRECT_URI = os.environ.get("REDIRECT_URI")
 
 if FLASK_ENV == 'development':
     REDIRECT_URI = 'http://127.0.0.1:5000/hello'
