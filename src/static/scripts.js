@@ -33,14 +33,17 @@ const checkSong = () => {
 }
 
 const getAlbumCover = song => {
-    if ($('.album-img img').attr('src') != song.image_link[1].url) {
+    if ($('.album-img').attr('src') != song.image_link[1].url) {
         $('.album-img img').attr('src', song.image_link[1].url)
+        $('.album-img').css('display', "block")
+        $('.album-loader-wrap').css('display', 'none')
     }
 }
 
 const noAlbumCover = () => {
-    if ($('.album-img img').attr('src') != "../static/lost.gif") {
-        $('.album-img img').attr('src', "../static/lost.gif")
+    if ($('.album-loader-wrap').css('display') == "none") {
+        $('.album-loader-wrap').css('display', "block")
+        $('.album-img').css('display', 'none')
     }
 }
 
