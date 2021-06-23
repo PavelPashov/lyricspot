@@ -226,6 +226,10 @@ label a, a {
   text-decoration: none;
 }
 
+.album-img {
+  display: none;
+}
+
 img {
   width: 160px;
   height: 160px;
@@ -234,7 +238,7 @@ img {
   border: 2px solid var(--highlight);
 }
 
-img:hover {
+img:hover, .album-loader-wrap:hover {
   border: 2px solid var(--main-green);
 }
 
@@ -324,7 +328,33 @@ input {
   margin: 0 auto;
   text-align: center;
   display: block;
-  background: url('ajax-loader-dark.gif') no-repeat center center;
+  background: url('ajax-loader-light.gif') no-repeat center center;
+}
+
+.album-loader-wrap {
+  position: relative;
+  display: none;
+  width: 160px;
+  height: 160px;
+  border-radius: 4px;
+  border: 2px solid var(--highlight);
+  margin: 0 auto;
+  margin-top: 23.8px;
+}
+
+.album-loader {
+  width: 32px;
+  height: 32px;
+  width: 50%;
+  height: 50%;
+  overflow: auto;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: url('ajax-loader-light.gif') no-repeat center center;
 }
 
 .card-container {
