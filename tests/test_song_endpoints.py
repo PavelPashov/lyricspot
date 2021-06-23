@@ -22,7 +22,7 @@ def _player_next_previous(option, song_name):
         set_up_session(client)
         body = {'option': f'{option}'}
         client.post('/player', data=body)
-        time.sleep(1.5)
+        time.sleep(3)
         response = client.get('/api/v0/songs/current')
         data = json.loads(response.get_data(as_text=True))
         assert data['name'] == song_name
@@ -85,7 +85,7 @@ def test_get_current_song():
     with app.test_client() as client:
         set_up_session(client)
         # Fails without the wait
-        time.sleep(2)
+        time.sleep(3)
         response = client.get('/api/v0/songs/current')
         print(response.data)
         data = json.loads(response.get_data(as_text=True))
