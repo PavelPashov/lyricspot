@@ -37,6 +37,7 @@ jobs:
       - name: Push to Heroku
         run: |
           git push -f heroku master
+          git tag ${{ github.event.inputs.tags }}
           git push origin ${{ github.event.inputs.tags }}
 
   selenium-tests:
