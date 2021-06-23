@@ -23,11 +23,12 @@ def refresh_token(f):
     def decorated_function(*args, **kwargs):
         r_token = session.get('r_token')
         token_time = session.get('token_time')
-        if int(token_time) + 3000 < int(time.time()):
-            session['token'] = get_refresh_token(r_token)
-            session['token_time'] = int(time.time())
-        elif int(token_time) + 3600 < int(time.time()):
-            session.clear()
-            return redirect('/')
+        if token_time:
+            if int(token_time) + 3000 < int(time.time()):
+                session['token'] = get_refresh_token(r_token)
+                session['token_time'] = int(time.time())
+            elif int(token_time) + 3600 < int(time.time()):
+                session.clear()
+                return redirect('/')
         return f(*args, **kwargs)
     return decorated_function

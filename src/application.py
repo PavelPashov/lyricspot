@@ -59,8 +59,9 @@ api.add_resource(TopSongAPI, '/api/v0/songs/top/<string:song_id>')
 api.add_resource(TopSongsAPI, '/api/v0/songs/top/')
 api.add_resource(TopSongLyricsAPI, '/api/v0/songs/top/lyrics/<string:song_id>')
 
-@refresh_token
+
 @app.route("/")
+@refresh_token
 def index():
     url = generate_authorize_url()
     if not session.get('token'):
