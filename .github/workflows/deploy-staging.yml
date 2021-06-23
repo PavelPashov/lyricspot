@@ -6,12 +6,8 @@ name: deploy-to-staging
 on: 
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'     
-        required: true
-        default: 'warning'
       tags:
-        description: 'Deploy to staging and test'  
+        description: 'version'  
 
 jobs:
   heroku-deploy:
