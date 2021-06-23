@@ -1,11 +1,17 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: lyricspot-selenium-tests
+name: deploy-to-staging
 
-on:
-  pull_request:
-    types: [closed]
+on: 
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Deploy to staging and test'  
 
 jobs:
   heroku-deploy:
