@@ -35,7 +35,7 @@ jobs:
         env:
           HEROKU_APP_NAME_STAGING: ${{ secrets.HEROKU_APP_NAME_STAGING }}
       - name: Push to Heroku
-        run: git push heroku master
+        run: git push -f heroku master
 
   selenium-tests:
     needs: heroku-deploy
