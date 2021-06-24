@@ -253,3 +253,21 @@ const showHideMenu = () => {
         menu.css('display', 'flex');
     }
 }
+
+
+const getTopSogns = (element) => {
+    term = $(element).attr('data-term')
+    $.ajax({
+        url: `/api/v0/songs/top/term/${term}_term`, success: function (data) {
+            $('.card').each(function (i, card) {
+                $(card).find('.card-img img').attr('src', data.songs[i].image_link)
+                $(card).find('.card-name a').attr('href', data.songs[i].link)
+                $(card).find('.card-name a').html(data.songs[i].name)
+                $(card).find('.card-artist a').attr('href', data.songs[i].artists[0].link)
+                $(card).find('.card-artist a').html(data.songs[i].artists[0].name)
+            })
+            $('.active').attr('class', 'not-active')
+            $(element).attr('class', 'active')
+        }
+    });
+}

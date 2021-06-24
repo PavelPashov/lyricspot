@@ -11,8 +11,8 @@ class PlayingSongAPI(Resource):
     def current_song(self):
         self.song = CurrentSong()
         if self.song.is_playing:
-            session['progress'] = self.song.progress
-            session['uri'] = self.song.uri
+            session["progress"] = self.song.progress
+            session["uri"] = self.song.uri
 
     @login_required
     def get(self):
@@ -20,7 +20,7 @@ class PlayingSongAPI(Resource):
         if self.song.is_playing:
             return self.song.__dict__
         else:
-            return '', 204
+            return "", 204
 
 
 class RecentSongAPI(Resource):
@@ -51,7 +51,7 @@ class RecentSongsAPI(RecentSongAPI):
     @login_required
     def get(self):
         self.tracks.get_songs()
-        data = {'songs': [song.__dict__ for song in self.tracks.songs]}
+        data = {"songs": [song.__dict__ for song in self.tracks.songs]}
         return data
 
 
@@ -67,6 +67,12 @@ class TopSongsAPI(RecentSongsAPI):
 
     def __init__(self):
         self.tracks = TopSongs()
+
+    @login_required
+    def get(self, term):
+        self.tracks.get_songs(term=term)
+        data = {"songs": [song.__dict__ for song in self.tracks.songs]}
+        return data
 
 
 class TopSongLyricsAPI(RecentSongLyricsAPI):
