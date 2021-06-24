@@ -382,13 +382,16 @@ input {
 }
 
 .top-buttons {
+  width: 33%;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   margin-bottom: 16px;
+  margin: 0 auto;
 }
 
 .top-buttons button {
   margin: 8px;
+  width: 100%;
 }
 
 @media screen and (max-width: 600px) {
@@ -448,8 +451,16 @@ input {
   .card {
     width: 100%;
   }
+  .top-buttons {
+    width: 95%;
+    display: flex;
+    justify-content: space-around;
+    margin: 0 auto;
+  }
   .top-buttons button {
-    display: inline-block;
-    text-align: center;
+    margin: 4px;
+  }
+  .card-spacer {
+    margin-bottom: 24px;
   }
 }
