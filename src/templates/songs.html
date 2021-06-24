@@ -3,6 +3,13 @@
 <div class="box">
     <h1 class='page-title'>{{title}}</h1>
 </div>
+{% if title == 'Your 50 Top Played Tracks' %}
+<div class='top-buttons'>
+    <button data-term="short" onClick="getTopSogns(this)">4 weeks</button>
+    <button data-term="medium" onClick="getTopSogns(this)">6 months</button>
+    <button class="active" data-term="long" onClick="getTopSogns(this)">all time</button>
+</div>
+{% endif %}
 <div class="box card-container">
     {% for song in songs %}
     <div class="card">

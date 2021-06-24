@@ -147,7 +147,7 @@ button:hover, button:visited {
   outline: none;
 }
 
-button:focus {
+button:focus, .active {
   background: var(--standard);
   color: var(--main-green);
   border: 1.5px solid #0e4f1f;
@@ -328,7 +328,7 @@ input {
   margin: 0 auto;
   text-align: center;
   display: block;
-  background: url('ajax-loader-light.gif') no-repeat center center;
+  background: url('ajax-loader-dark.gif') no-repeat center center;
 }
 
 .album-loader-wrap {
@@ -354,7 +354,7 @@ input {
   left: 0;
   bottom: 0;
   right: 0;
-  background: url('ajax-loader-light.gif') no-repeat center center;
+  background: url('ajax-loader-dark.gif') no-repeat center center;
 }
 
 .card-container {
@@ -379,6 +379,16 @@ input {
 
 .card-name, .card-artist, .card-img, .card-position {
   margin: 0 auto;
+}
+
+.top-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.top-buttons button {
+  margin: 8px;
 }
 
 @media screen and (max-width: 600px) {
@@ -437,5 +447,9 @@ input {
   }
   .card {
     width: 100%;
+  }
+  .top-buttons button {
+    display: inline-block;
+    text-align: center;
   }
 }
