@@ -219,7 +219,7 @@ progress::-moz-progress-bar {
 }
 
 progress::-webkit-progress-bar {
-  background: var(--highlight);
+  background: var(--standard);
 }
 
 label a:visited {
