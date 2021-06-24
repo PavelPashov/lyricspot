@@ -147,8 +147,10 @@ def mode():
         try:
             if request.form["option"] == "dark":
                 session["mode"] = {"link": "../static/darkstyles.css", "name": "dark"}
-            else:
+            elif request.form["option"] == "light":
                 session["mode"] = {"link": "../static/lightstyles.css", "name": "light"}
+            else:
+                session["mode"] = {"link": "../static/synthwave.css", "name": "pink"}
             return session["mode"]
         except Exception as e:
             logging.error(e, exc_info=True)
