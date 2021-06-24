@@ -1,0 +1,488 @@
+:root {
+    --standard: #fc9dfc;
+    --highlight: #fcb89f;
+    --main-green: #f6019d;
+    --main-grey: #DCDCDC;
+    --sec-green: #fc0086;
+    /* --standard: #351747;
+    --highlight: #fd6cdd;
+    --main-green: #f28f44;
+    --main-grey: #DCDCDC; */
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-image: linear-gradient(to right bottom, #7835a0, #a5379b, #c94093, #e6518a, #fc6781);
+}
+
+.navbar {
+    display: flex;
+    background: var(--main-green);
+    width: auto;
+    height: 24px;
+    padding: 16px 16px;
+    overflow: hidden;
+}
+
+.nav-container {
+    width: 50%;
+}
+
+.nav-container.left {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.nav-container.right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nav-container-item {
+    display: flex;
+    margin: auto 0;
+    vertical-align: bottom;
+    padding-right: 8px;
+}
+
+.nav-container-item.logout {
+    padding-right: 16px;
+}
+
+.repsonsive-icon {
+    display: none;
+}
+
+.nav-container-item a {
+    text-decoration: none;
+    font-size: 17px;
+    color: var(--standard);
+}
+
+.nav-link-brand {
+    font-weight: bold;
+    vertical-align: middle;
+    text-decoration: none;
+    color: var(--standard);
+}
+
+.nav-container-item.brand a {
+    font-size: 20px;
+    padding-left: 16px;
+}
+
+.navbar-brand:hover {
+    color: var(--highlight);
+}
+
+.nav-container-item a:hover {
+    color: var(--highlight);
+}
+
+.mobile-nav {
+    display: none;
+    text-decoration: none;
+    font-size: 17px;
+    color: var(--standard);
+}
+
+div.apperance {
+    float: right;
+    vertical-align: middle;
+    padding-top: 3px;
+    margin-right: 1%;
+}
+
+.spacer {
+    margin: 0 1%;
+}
+
+.box {
+    /* background: var(--standard); */
+    color: var(--highlight);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 16px;
+    width: 60%;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.lyrics, .box-lyrics {
+    /* background: var(--standard); */
+    color: var(--highlight);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 16px;
+    width: 75%;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+p {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+button {
+    background: var(--main-green);
+    color: var(--standard);
+    padding: 8px 16px;
+    margin: 8px 0;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1.5px solid var(--sec-green);
+    outline: none;
+}
+
+button:hover, button:visited {
+    background: var(--standard);
+    color: var(--main-green);
+    border: 1.5px solid var(--sec-green);
+    box-shadow: 2px 2px var(--main-green);
+    transition: all .1s ease;
+    outline: none;
+}
+
+button:focus, .active {
+    background: var(--standard);
+    color: var(--main-green);
+    border: 1.5px solid var(--sec-green);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+button:active {
+    background: var(--standard);
+    color: var(--main-green);
+    box-shadow: none;
+    transition: all 0.3s ease;
+    transform: translateY(2px);
+    outline: none;
+}
+
+.song-name a, .song-artist span a, .song-artist a {
+    color: var(--highlight);
+}
+
+.song-name a:hover, .song-artist span a:hover, .song-artist a:hover {
+    color: var(--main-green);
+}
+
+pre {
+    color: var(--highlight);
+    font-weight: 300;
+    font-size: 16px;
+    width: auto;
+    margin-bottom: 100px;
+    text-shadow: 0 0 1px var(--main-grey);
+    text-align: center;
+    white-space: pre-wrap;
+    /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */
+}
+
+pre a, .collection-link a {
+    text-decoration: underline;
+    padding: 8px;
+    color: var(--highlight);
+}
+
+pre a:hover, .collection-link a:hover {
+    color: var(--main-green);
+}
+
+progress {
+    background: var(--main-green);
+    color: var(--highlight);
+    border-radius: 2px;
+    border: 1.5px solid var(--main-green);
+    margin-top: 8px;
+}
+
+progress::-webkit-progress-value {
+    background: var(--main-green);
+}
+
+progress::-moz-progress-bar {
+    background: var(--highlight);
+}
+
+progress::-webkit-progress-bar {
+    background: var(--highlight);
+}
+
+label a:visited {
+    text-decoration: none;
+    color: var(--highlight);
+}
+
+label[for="song"] {
+    display: block;
+    padding: 2px;
+    margin: 2px;
+    font-weight: bold;
+}
+
+label a, a {
+    text-decoration: none;
+}
+
+.album-img {
+    display: none;
+}
+
+img {
+    width: 160px;
+    height: 160px;
+    border-radius: 4px;
+    margin: 8px 8px;
+    border: 2px solid var(--highlight);
+}
+
+img:hover, .album-loader-wrap:hover {
+    border: 2px solid var(--main-green);
+}
+
+.bi {
+    fill: var(--standard);
+    display: block;
+    margin: auto;
+}
+
+#next, #previous, #play, #pause {
+    width: 32;
+    height: 32;
+    padding: 1px 5px;
+}
+
+#next:hover>.bi {
+    fill: var(--main-green);
+}
+
+#previous:hover>.bi {
+    fill: var(--main-green);
+}
+
+#play:hover>.bi {
+    fill: var(--main-green);
+}
+
+#next:focus>.bi {
+    fill: var(--main-green);
+}
+
+#previous:focus>.bi {
+    fill: var(--main-green);
+}
+
+#play:focus>.bi {
+    fill: var(--main-green);
+}
+
+.sun-moon-icon:hover {
+    fill: var(--highlight);
+}
+
+footer {
+    margin-top: 150px;
+    margin-bottom: 0;
+    text-decoration: none;
+    font-size: x-small;
+    padding: 0;
+}
+
+.footer-text a, .footer-text a:visited {
+    text-decoration: none;
+    color: var(--highlight);
+}
+
+.footer-text a:hover {
+    color: var(--main-green);
+}
+
+.collection, .collection-link {
+    text-align: center;
+    display: block;
+    margin-top: 64px;
+    margin-bottom: 64px;
+}
+
+.collection-link {
+    margin-top: 32px;
+}
+
+input {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    padding: 8px;
+    margin-bottom: 16px;
+}
+
+.loader-wrap {
+    display: none
+}
+
+.loader {
+    width: 32px;
+    height: 32px;
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    background: url('ajax-loader-synth.gif') no-repeat center center;
+}
+
+.album-loader-wrap {
+    position: relative;
+    display: none;
+    width: 160px;
+    height: 160px;
+    border-radius: 4px;
+    border: 2px solid var(--highlight);
+    margin: 0 auto;
+    margin-top: 23.8px;
+}
+
+.album-loader {
+    width: 32px;
+    height: 32px;
+    width: 50%;
+    height: 50%;
+    overflow: auto;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: url('ajax-loader-synth.gif') no-repeat center center;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-start; */
+    margin: 2%;
+    padding: 20;
+    color: var(--highlight);
+    width: 25%;
+    height: 5%;
+}
+
+.card-name, .card-artist, .card-img, .card-position {
+    margin: 0 auto;
+}
+
+.top-buttons {
+    width: 33%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 16px;
+    margin: 0 auto;
+}
+
+.top-buttons button {
+    margin: 8px;
+    width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        margin-left: 0;
+    }
+    .nav-container-item {
+        display: none;
+    }
+    .brand, .mode {
+        display: block;
+        padding-right: 16px;
+    }
+    .nav-container-item.brand a {
+        padding-left: 0;
+    }
+    .repsonsive-icon {
+        display: block;
+        margin: auto 0;
+        background: var(--main-green);
+    }
+    a.icon {
+        color: var(--standard);
+    }
+    .mobile-nav {
+        display: none;
+        flex-direction: column;
+        background-image: linear-gradient(to right bottom, #7835a0, #a5379b, #c94093, #e6518a, #fc6781);
+        border: var(--highlight) 1.5px solid;
+    }
+    .mobile-nav a {
+        color: var(--highlight);
+        text-align: right;
+        padding: 14px 16px;
+    }
+    .mobile-nav a:hover {
+        background-color: var(--main-green);
+        color: var(--highlight)
+    }
+    pre {
+        white-space: pre-wrap;
+        /* Since CSS 2.1 */
+        white-space: -moz-pre-wrap;
+        /* Mozilla, since 1999 */
+        white-space: -pre-wrap;
+        /* Opera 4-6 */
+        white-space: -o-pre-wrap;
+        /* Opera 7 */
+        word-wrap: break-word;
+        /* Internet Explorer 5.5+ */
+    }
+    button {
+        border: .5px solid var(--sec-green);
+        box-shadow: 2px 2px var(--main-green);
+    }
+    .card {
+        width: 100%;
+    }
+    .top-buttons {
+        width: 95%;
+        display: flex;
+        justify-content: space-around;
+        margin: 0 auto;
+    }
+    .top-buttons button {
+        margin: 4px;
+    }
+    .card-spacer {
+        margin-bottom: 24px;
+    }
+}
+
+@media only screen and (min-device-width: 601px) and (max-device-width: 812px) and (orientation: landscape) {
+    .top-buttons {
+        width: 60%;
+    }
+}
