@@ -465,3 +465,9 @@ input {
     margin-bottom: 24px;
   }
 }
+
+@media only screen and (min-device-width: 601px) and (max-device-width: 812px) and (orientation: landscape) {
+  .top-buttons {
+    width: 60%;
+  }
+}
