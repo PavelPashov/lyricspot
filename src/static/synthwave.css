@@ -10,8 +10,9 @@
     --main-grey: #DCDCDC; */
 }
 
-body {
+html, body {
     margin: 0;
+    min-height: 100%;
     font-family: sans-serif;
     background-image: linear-gradient(to right bottom, #7835a0, #a5379b, #c94093, #e6518a, #fc6781);
 }
