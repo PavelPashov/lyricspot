@@ -50,7 +50,6 @@
         <pre id='lyrics'>{{ lyrics|default("Fetching lyrics...", true) }}</pre>
     </div>
     <script>
-        $('body').ready(mariya());
         blurButtons();
         $('body').ready(callSongDetails());
         $('body').ready(getLyics());

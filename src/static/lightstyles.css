@@ -210,6 +210,18 @@ progress {
   margin-top: 8px;
 }
 
+progress::-webkit-progress-value {
+  background: var(--main-green);
+}
+
+progress::-moz-progress-bar {
+  background: var(--highlight);
+}
+
+progress::-webkit-progress-bar {
+  background: var(--highlight);
+}
+
 label a:visited {
   text-decoration: none;
   color: var(--highlight);
