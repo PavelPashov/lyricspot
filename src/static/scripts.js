@@ -208,13 +208,6 @@ const blurButtons = () => {
     document.addEventListener('click', function (e) { if (document.activeElement.toString() == '[object HTMLButtonElement]') { document.activeElement.blur(); } });
 }
 
-const mariya = () => {
-    let param = window.location.search.substring(1);
-    if (param === 'mariya') {
-        $('link').attr('href', '../static/mariya.css');
-    }
-}
-
 const hideButton = (element) => {
     $(element).css("display", "none");
     $('.loader-wrap').css("display", "block");
