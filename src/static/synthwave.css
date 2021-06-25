@@ -1,9 +1,9 @@
 :root {
     --standard: #fc9dfc;
     --highlight: #fcb89f;
-    --main-green: #f6019d;
+    --main-green: #7835a0;
     --main-grey: #DCDCDC;
-    --sec-green: #fc0086;
+    --sec-green: #a103d6;
     /* --standard: #351747;
     --highlight: #fd6cdd;
     --main-green: #f28f44;
@@ -221,11 +221,11 @@ progress::-webkit-progress-value {
 }
 
 progress::-moz-progress-bar {
-    background: var(--highlight);
+    background: var(--standard);
 }
 
 progress::-webkit-progress-bar {
-    background: var(--highlight);
+    background: var(--standard);
 }
 
 label a:visited {
@@ -437,7 +437,6 @@ input {
     .mobile-nav {
         display: none;
         flex-direction: column;
-        background-image: linear-gradient(to right bottom, #7835a0, #a5379b, #c94093, #e6518a, #fc6781);
         border: var(--highlight) 1.5px solid;
     }
     .mobile-nav a {
@@ -482,8 +481,8 @@ input {
     }
 }
 
-@media only screen and (min-device-width: 601px) and (max-device-width: 812px) and (orientation: landscape) {
+@media only screen and (min-device-width: 601px) and (max-device-width: 1000px) and (orientation: landscape) {
     .top-buttons {
-        width: 60%;
+        width: 80%;
     }
 }
