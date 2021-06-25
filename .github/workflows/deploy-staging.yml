@@ -60,9 +60,11 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run E2E tests
-      env: 
-        PASS: ${{ secrets.PASS }}
-        USER: ${{ secrets.USER }}
+      env:
+          PASS: ${{ secrets.PASS }}
+          USER: ${{ secrets.USER }}
+          COOKIE_PASS: ${{ secrets.COOKIE_PASS }}
       run: |
         cd lyricspot-selenium
+        unzip -P $COOKIE_PASS cookie.zip
         python -m unittest discover -v
