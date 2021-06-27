@@ -3,6 +3,7 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="../static/manifest.json" />
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="../static/scripts.js"></script>
   {% if session['mode'] %}
@@ -76,6 +77,14 @@
     {% endif %}
   </footer>
   <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker
+          .register("../static/serviceWorker.js")
+          .then(res => console.log("service worker registered"))
+          .catch(err => console.log("service worker not registered", err))
+      })
+    }
     {% if session['mode'] %}
     $('body').ready(changeMode("{{ session['mode']['name'] }}"));
     {% else %}
