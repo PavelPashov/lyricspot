@@ -3,7 +3,7 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="manifest" href="../static/manifest.json" />
+
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="../static/scripts.js"></script>
   {% if session['mode'] %}
@@ -12,6 +12,7 @@
   <link href="../static/mystyles.css" rel="stylesheet">
   {% endif %}
   <link rel="shortcut icon" type="image/jpg" href="../static/favicon.png" />
+  <link rel="manifest" href="../static/manifest.json" />
   <title>Lyricspot
   </title>
 </head>
@@ -87,11 +88,10 @@
           .catch(err => console.log("service worker not registered", err))
       })
     }
-    {% if session['mode'] %}
-    $('body').ready(changeMode("{{ session['mode']['name'] }}"));
-    {% else %}
-    $('body').ready(changeMode());
-    {% endif %}
+    if (localStorage.hasOwnProperty('mode')) {
+      let mode = window.localStorage.getItem('mode')
+      $('body').ready(changeMode(mode));
+    }
   </script>
 
 </body>
