@@ -16,56 +16,58 @@
   </title>
 </head>
 
-<body>
-  <nav class="navbar">
-    <div class="nav-container left">
-      <div class="nav-container-item brand">
-        <a class="nav-link-brand" href="/">LyricSpot
-        </a>
+<body class="site-body">
+  <main class="site-content">
+    <nav class="navbar">
+      <div class="nav-container left">
+        <div class="nav-container-item brand">
+          <a class="nav-link-brand" href="/">LyricSpot
+          </a>
+        </div>
+        <div class="nav-container-item spacer">
+        </div>
+        {% if session['country'] %}
+        <div class="nav-container-item">
+          <a class="nav-link" href="/top">Top Tracks</a>
+        </div>
+        <div class="nav-container-item">
+          <a class="nav-link" href="/recent">Recently Played
+          </a>
+        </div>
       </div>
-      <div class="nav-container-item spacer">
+      <div class="nav-container right">
+        <div class="nav-container-item mode">
+          <a href="#" id="mode">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi sun-moon-icon"
+              viewBox="0 0 16 16">
+            </svg>
+          </a>
+        </div>
+        <div class="nav-container-item logout">
+          <a class="nav-link" href="/logout">Log out
+          </a>
+        </div>
+        <div class="repsonsive-icon">
+          <a href="javascript:void(0);" class="icon" onclick="showHideMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list"
+              viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+            </svg>
+          </a>
+        </div>
       </div>
-      {% if session['country'] %}
-      <div class="nav-container-item">
-        <a class="nav-link" href="/top">Top Tracks</a>
-      </div>
-      <div class="nav-container-item">
-        <a class="nav-link" href="/recent">Recently Played
-        </a>
-      </div>
-    </div>
-    <div class="nav-container right">
-      <div class="nav-container-item mode">
-        <a href="#" id="mode">
-          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi sun-moon-icon"
-            viewBox="0 0 16 16">
-          </svg>
-        </a>
-      </div>
-      <div class="nav-container-item logout">
-        <a class="nav-link" href="/logout">Log out
-        </a>
-      </div>
-      <div class="repsonsive-icon">
-        <a href="javascript:void(0);" class="icon" onclick="showHideMenu()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list"
-            viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-              d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
-          </svg>
-        </a>
-      </div>
+      {% endif %}
+    </nav>
+    {% if session['country'] %}
+    <div class="mobile-nav" id="mobileLinks">
+      <a href="/top">Top Tracks</a>
+      <a href="/recent">Recently Played</a>
+      <a href="/logout">Log out</a>
     </div>
     {% endif %}
-  </nav>
-  {% if session['country'] %}
-  <div class="mobile-nav" id="mobileLinks">
-    <a href="/top">Top Tracks</a>
-    <a href="/recent">Recently Played</a>
-    <a href="/logout">Log out</a>
-  </div>
-  {% endif %}
-  {% block main %}{% endblock %}
+    {% block main %}{% endblock %}
+  </main>
   <footer>
     {% if session['country'] %}
     <div class="box footer-text">
@@ -91,6 +93,7 @@
     $('body').ready(changeMode());
     {% endif %}
   </script>
+
 </body>
 
 </html>

@@ -11,6 +11,17 @@ body {
   background: var(--standard);
 }
 
+.site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.site-content {
+  min-height: 90vh;
+  flex: 1;
+}
+
 .navbar {
   display: flex;
   background: var(--main-green);
@@ -295,7 +306,7 @@ img:hover, .album-loader-wrap:hover {
 }
 
 footer {
-  margin-top: 150px;
+  min-height: 10vh;
   margin-bottom: 0;
   text-decoration: none;
   font-size: x-small;
