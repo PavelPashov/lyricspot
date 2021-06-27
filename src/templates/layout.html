@@ -88,10 +88,9 @@
           .catch(err => console.log("service worker not registered", err))
       })
     }
-    if (localStorage.hasOwnProperty('mode')) {
-      let mode = window.localStorage.getItem('mode')
-      $('body').ready(changeMode(mode));
-    }
+    let mode = window.localStorage.getItem('mode');
+    $('body').ready(changeMode(mode));
+
   </script>
 
 </body>
