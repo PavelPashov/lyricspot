@@ -6,13 +6,14 @@
 
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="../static/scripts.js"></script>
+  <script type="text/javascript" src="../static/install.js"></script>
   {% if session['mode'] %}
   <link href={{ session['mode']['link'] }} rel="stylesheet">
   {% else %}
   <link href="../static/mystyles.css" rel="stylesheet">
   {% endif %}
   <link rel="shortcut icon" type="image/jpg" href="../static/favicon.png" />
-  <link rel="manifest" href="../static/manifest.json" />
+  <link rel="manifest" crossorigin="use-credentials" href="../static/manifest.json" />
   <title>Lyricspot
   </title>
 </head>
@@ -64,6 +65,7 @@
     <div class="mobile-nav" id="mobileLinks">
       <a href="/top">Top Tracks</a>
       <a href="/recent">Recently Played</a>
+      <a href="#" id="installButton" onClick="installPWA()">Download App</a>
       <a href="/logout">Log out</a>
     </div>
     {% endif %}
@@ -80,17 +82,20 @@
     {% endif %}
   </footer>
   <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker
-          .register("../static/serviceWorker.js")
-          .then(res => console.log("service worker registered"))
-          .catch(err => console.log("service worker not registered", err))
-      })
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('./serviceWorker.js', { scope: '/' })
+        .then(function (registration) {
+          console.log('Service Worker Registered!');
+          return registration;
+        })
+        .catch(function (err) {
+          console.error('Unable to register service worker.', err);
+        });
     }
     let mode = window.localStorage.getItem('mode');
     $('body').ready(changeMode(mode));
-
+    $('body').ready(checkIfInstalled());
   </script>
 
 </body>
