@@ -351,7 +351,7 @@ input {
   margin: 0 auto;
   text-align: center;
   display: block;
-  background: url('ajax-loader-dark.gif') no-repeat center center;
+  background: url('ajax-loader-light.gif') no-repeat center center;
 }
 
 .album-loader-wrap {
@@ -377,7 +377,7 @@ input {
   left: 0;
   bottom: 0;
   right: 0;
-  background: url('ajax-loader-dark.gif') no-repeat center center;
+  background: url('ajax-loader-light.gif') no-repeat center center;
 }
 
 .card-container {
