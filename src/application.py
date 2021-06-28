@@ -212,3 +212,8 @@ def collection():
             return render_template("progress.html", message=message)
     else:
         return render_template("collection.html")
+
+
+@app.route("/serviceWorker.js")
+def sw():
+    return app.send_static_file("serviceWorker.js")
