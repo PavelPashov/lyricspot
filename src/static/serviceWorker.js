@@ -5,7 +5,9 @@ const FILES_TO_CACHE = [
     '/static/offline.html',
     '/static/mystyles.css',
     '/static/lightstyles.css',
-    '/static/darkstyles.css'
+    '/static/darkstyles.css',
+    '/static/ajax-loader-light.gif',
+    '/static/ajax-loader-dark.gif'
 ];
 
 self.addEventListener('install', (evt) => {
