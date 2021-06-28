@@ -1,7 +1,7 @@
 {
     "name": "Lyricspot",
     "short_name": "Lyricspot",
-    "start_url": "../templates/start.html",
+    "start_url": "start.html",
     "display": "standalone",
     "background_color": "#0e1625",
     "theme_color": "#1DB954",
