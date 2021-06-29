@@ -49,7 +49,7 @@ hash_pw = os.environ.get("PASSWORD")
 # stuff used for session
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = True
-app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=45)
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=30)
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
