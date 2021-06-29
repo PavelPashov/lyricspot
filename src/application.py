@@ -1,3 +1,4 @@
+from datetime import timedelta
 import logging
 import time
 import os
@@ -5,7 +6,7 @@ import os
 from flask import Flask, redirect, render_template, request, session
 from flask_restful import Api
 from flask_session import Session
-
+from tempfile import mkdtemp
 from werkzeug.security import check_password_hash
 
 from src.spotify import (
@@ -46,7 +47,9 @@ api = Api(app)
 hash_pw = os.environ.get("PASSWORD")
 
 # stuff used for session
-app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_FILE_DIR"] = mkdtemp()
+app.config["SESSION_PERMANENT"] = True
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=45)
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
