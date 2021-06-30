@@ -6,7 +6,6 @@ import os
 from flask import Flask, redirect, render_template, request, session
 from flask_restful import Api
 from flask_session import Session
-from tempfile import mkdtemp
 from werkzeug.security import check_password_hash
 
 from src.spotify import (
@@ -108,6 +107,11 @@ def recent_songs():
     return render_template(
         "songs.html", songs=songs, title="Your 50 Recently Played Tracks"
     )
+
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
 
 
 @app.route("/player", methods=["POST"])
