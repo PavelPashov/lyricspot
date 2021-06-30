@@ -6,7 +6,6 @@ import os
 from flask import Flask, redirect, render_template, request, session
 from flask_restful import Api
 from flask_session import Session
-from tempfile import mkdtemp
 from werkzeug.security import check_password_hash
 
 from src.spotify import (
@@ -47,9 +46,8 @@ api = Api(app)
 hash_pw = os.environ.get("PASSWORD")
 
 # stuff used for session
-app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = True
-app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=45)
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=30)
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
@@ -109,6 +107,11 @@ def recent_songs():
     return render_template(
         "songs.html", songs=songs, title="Your 50 Recently Played Tracks"
     )
+
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
 
 
 @app.route("/player", methods=["POST"])

@@ -486,6 +486,9 @@ input {
   .card-spacer {
     margin-bottom: 24px;
   }
+  .footer-text a, .footer-text a:visited {
+    color: var(--main-green);
+  }
 }
 
 @media only screen and (min-device-width: 601px) and (max-device-width: 1000px) and (orientation: landscape) {
