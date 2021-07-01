@@ -1,4 +1,4 @@
-let currentSong;
+let currentSong = { name: '', artist: '' };
 const stylesheet = '#style'
 
 const checkSong = () => {
@@ -7,7 +7,7 @@ const checkSong = () => {
             if (xhr.status === 204) {
                 noAlbumCover();
                 noSongDetails();
-                playPause(false)
+                playPause(false);
             }
             else {
                 $('#song').val(song.progress / song.duration * 100);
@@ -15,7 +15,7 @@ const checkSong = () => {
                     + ':' + Math.floor((song.progress / 1000) % 60).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
                     + '/' + Math.floor(song.duration / 60000).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })
                     + ':' + Math.floor((song.duration / 1000) % 60).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }));
-                if (song.progress < 5000 && currentSong != song.name) {
+                if (song.name != currentSong.name || song.artists[0].name != currentSong.artist) {
                     $('#lyrics').html('<div class="loader"></div>')
                     getLyics();
                 }
@@ -23,7 +23,8 @@ const checkSong = () => {
                 $('#song').css("display", "inline-block")
                 getSongDetails(song);
                 getAlbumCover(song);
-                currentSong = song.name;
+                currentSong.name = song.name;
+                currentSong.artist = song.artists[0].name;
             }
         },
         error: function () {
