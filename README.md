@@ -4,7 +4,7 @@ Fetches and displays lyrics for the currently playing song on your Spotify accou
 
 ## Usage
 
-Visit https://lyric-spot.herokuapp.com/ and log in, no user details are saved
+Visit https://lyricspot.fly.dev/ and log in, no user details are saved
 
 Note that a premium account is required for the player controlls
 
